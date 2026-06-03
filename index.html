@@ -23,18 +23,28 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="max-w-5xl mx-auto px-6 py-20 md:py-32 flex flex-col justify-center">
-        <p class="text-teal-400 font-mono text-sm mb-3">Hi, my name is</p>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight mb-4">Koushik Barua.</h1>
-        <h2 class="text-2xl md:text-3xl font-bold text-slate-400 mb-6">Finance & Controlling | SAP FI/CO | Business Intelligence</h2>
-        <p class="max-w-xl text-slate-400 text-base md:text-lg mb-8 leading-relaxed">
-            I am an International Management & Information Systems Master's student at FH Südwestfalen. Combining a deep academic foundation in accounting with advanced enterprise IT architectures like SAP S/4HANA and Celonis Process Mining, I specialize in translating complex financial data into actionable corporate strategies.
-        </p>
-        <div class="flex flex-wrap gap-4">
-            <a href="#projects" class="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold rounded-lg transition-colors">View My Projects</a>
-            <a href="mailto:koushikbarua77@gmail.com" class="px-6 py-3 border border-slate-700 hover:border-teal-400 text-slate-300 hover:text-teal-400 font-semibold rounded-lg transition-colors">Get In Touch</a>
+    <section class="max-w-5xl mx-auto px-6 py-20 md:py-32 flex flex-col md:flex-row items-center justify-between gap-12">
+        <div class="flex-1 order-2 md:order-1">
+            <p class="text-teal-400 font-mono text-sm mb-3">Hi, my name is</p>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight mb-4">Koushik Barua.</h1>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-400 mb-6">Finance & Controlling | SAP FI/CO | Business Intelligence</h2>
+            <p class="max-w-xl text-slate-400 text-base md:text-lg mb-8 leading-relaxed">
+                I am an International Management & Information Systems Master's student at FH Südwestfalen. Combining a deep academic foundation in accounting with advanced enterprise IT architectures like SAP S/4HANA and Celonis Process Mining, I specialize in translating complex financial data into actionable corporate strategies.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#projects" class="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold rounded-lg transition-colors">View My Projects</a>
+                <a href="mailto:koushikbarua77@gmail.com" class="px-6 py-3 border border-slate-700 hover:border-teal-400 text-slate-300 hover:text-teal-400 font-semibold rounded-lg transition-colors">Get In Touch</a>
+            </div>
+        </div>
+        <!-- Profile Picture Container -->
+        <div class="w-64 h-64 md:w-80 md:h-80 order-1 md:order-2 flex-shrink-0 relative group">
+            <div class="absolute inset-0 bg-teal-500 rounded-2xl translate-x-3 translate-y-3 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300 z-0"></div>
+            <div class="absolute inset-0 bg-slate-800 rounded-2xl z-10 overflow-hidden border border-slate-700">
+                <img src="profile.jpg" alt="Koushik Barua" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            </div>
         </div>
     </section>
+    
 
     <!-- About Section -->
     <section id="about" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800/60">
