@@ -6,80 +6,70 @@
     <title>Koushik Barua — Portfolio</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
-    </style>
 </head>
-<body class="bg-[#030712] text-[#f3f4f6] antialiased selection:bg-emerald-500 selection:text-black">
-
-    <!-- Global Subtle Grid Overlay Effect -->
-    <div class="fixed inset-0 bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none z-50"></div>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-teal-500 selection:text-slate-950">
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#030712]/70 border-b border-gray-800/60 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/60">
+        <div class="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
             <!-- Left Side: Logo/Name -->
-            <a href="#" class="font-display font-bold text-lg md:text-xl tracking-tight text-white flex items-center gap-2">
-                KOUSHIK BARUA<span class="text-emerald-500 text-[10px] md:text-xs font-mono tracking-widest border border-emerald-500/30 px-2 py-0.5 rounded-md bg-emerald-500/5">FI/CO & BI</span>
+            <a href="#" class="font-bold text-xl tracking-tight text-white flex items-center gap-2">
+                KOUSHIK BARUA<span class="text-teal-400 text-xs font-mono tracking-wider border border-teal-500/20 px-2 py-0.5 rounded bg-teal-500/5">FI/CO & BI</span>
             </a>
             
             <!-- Right Side: High-Visibility Contact Actions -->
             <div class="flex items-center space-x-3 md:space-x-4">
                 <!-- LinkedIn Button -->
-                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-3 py-2 border border-gray-800 hover:border-emerald-500/50 bg-gray-900/30 text-gray-300 hover:text-emerald-400 rounded-lg transition-all duration-300 font-display text-xs tracking-wider uppercase flex items-center gap-2">
-                    <i class="fa-brands fa-linkedin text-sm"></i>
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-4 py-2 border border-slate-800 hover:border-teal-500/30 bg-slate-900/40 text-slate-300 hover:text-teal-400 font-semibold rounded-lg transition-all duration-300 text-sm flex items-center gap-2">
+                    <i class="fa-brands fa-linkedin text-base"></i>
                     <span class="hidden sm:inline">LinkedIn</span>
                 </a>
                 
                 <!-- Email Button -->
-                <a href="mailto:koushikbarua77@gmail.com" class="px-4 py-2 bg-white hover:bg-emerald-400 text-black font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-all duration-300 shadow-md shadow-white/5 flex items-center gap-2">
-                    <i class="fa-solid fa-envelope text-sm"></i>
+                <a href="mailto:koushikbarua77@gmail.com" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-lg transition-all duration-300 text-sm shadow-md shadow-teal-500/10 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-base"></i>
                     <span>Email Me</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero / Intro Section -->
-    <header class="relative max-w-6xl mx-auto px-6 pt-24 pb-20 md:pt-36 md:pb-32 flex flex-col md:flex-row items-center justify-between gap-16 border-b border-gray-800/40">
+    <!-- Hero Section -->
+    <header class="max-w-5xl mx-auto px-6 py-20 md:py-32 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-slate-900">
         <!-- Text Grid -->
-        <div class="flex-1 space-y-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-800 bg-gray-900/40 text-xs font-mono text-gray-400">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Open to Roles in Germany
-            </div>
-            <h1 class="font-display text-4xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-                Bridging Enterprise Finance <br class="hidden md:inline"><span class="bg-gradient-to-r from-emerald-400 via-teal-200 to-white bg-clip-text text-transparent">With Big Data.</span>
+        <div class="flex-1 space-y-4">
+            <p class="text-teal-400 font-mono text-sm font-medium">Hi, my name is</p>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight leading-none">
+                Koushik Barua.
             </h1>
-            <p class="max-w-xl text-gray-400 text-base md:text-lg leading-relaxed">
-                International Management & Information Systems student specialized in translating financial workflows into automated business intelligence. Expert tracking across SAP S/4HANA setups, Process Mining, and dynamic executive dashboards.
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-400">
+                Finance & Controlling | SAP FI/CO | Business Intelligence
+            </h2>
+            <p class="max-w-xl text-slate-400 text-base md:text-lg leading-relaxed pt-2">
+                I am an International Management & Information Systems Master's student at FH Südwestfalen. Combining a deep academic foundation in accounting with advanced enterprise IT architectures like SAP S/4HANA and Celonis Process Mining, I specialize in translating complex financial data into actionable corporate strategies.
             </p>
             <div class="flex flex-wrap gap-4 pt-4">
-                <a href="#projects" class="px-6 py-3.5 bg-white hover:bg-emerald-400 text-black font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-all duration-300 shadow-lg shadow-white/5 hover:shadow-emerald-500/10">Explore Case Studies</a>
-                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-6 py-3.5 border border-gray-800 hover:border-gray-600 bg-gray-900/20 text-gray-300 hover:text-white font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-colors">LinkedIn Network</a>
+                <a href="#projects" class="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold rounded-lg transition-colors">View My Projects</a>
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-6 py-3 border border-slate-700 hover:border-teal-400 text-slate-300 hover:text-teal-400 font-semibold rounded-lg transition-colors">Network Connection</a>
             </div>
         </div>
         
         <!-- Premium Framed Profile Picture Container -->
-        <div class="w-64 h-64 md:w-80 md:h-80 flex-shrink-0 relative">
-            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 transition duration-1000"></div>
-            <div class="relative w-full h-full bg-gray-950 rounded-2xl border-2 border-gray-800 overflow-hidden shadow-2xl p-3 flex items-center justify-center">
-                <div class="w-full h-full rounded-xl overflow-hidden bg-gray-900 border border-gray-800">
-                    <img src="profile.jpg" alt="Koushik Barua" class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-500 scale-105 hover:scale-100">
-                </div>
+        <div class="w-64 h-64 md:w-80 md:h-80 flex-shrink-0 relative group">
+            <div class="absolute inset-0 bg-teal-500 rounded-2xl translate-x-3 translate-y-3 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300 z-0"></div>
+            <div class="absolute inset-0 bg-slate-800 rounded-2xl z-10 overflow-hidden border border-slate-700">
+                <img src="profile.jpg" alt="Koushik Barua" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
             </div>
         </div>
     </header>
 
-    <!-- About / Dynamic Text Section -->
-    <section id="about" class="max-w-6xl mx-auto px-6 py-20 border-b border-gray-800/40">
+    <!-- About Section -->
+    <section id="about" class="max-w-5xl mx-auto px-6 py-20 border-b border-slate-900">
         <div class="grid md:grid-cols-12 gap-12">
             <div class="md:col-span-4">
-                <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 01 . PERSPECTIVE</p>
-                <h2 class="font-display text-3xl font-bold text-white tracking-tight">The Core Paradigm</h2>
+                <h3 class="text-2xl font-bold text-slate-100">The Core Paradigm</h3>
             </div>
-            <div class="md:col-span-8 text-gray-400 text-lg space-y-6 leading-relaxed font-light">
+            <div class="md:col-span-8 text-slate-400 text-base md:text-lg space-y-6 leading-relaxed">
                 <p>
                     I approach corporate steering from a dual architecture standpoint: combining a rigorous structural foundation in accounting with highly modern data engineering logic.
                 </p>
@@ -88,109 +78,99 @@
                 </p>
                 
                 <!-- Deployment Objective Block -->
-                <div class="p-6 bg-gradient-to-br from-gray-900/50 to-gray-950 border border-gray-800 rounded-xl text-sm relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
-                    <h4 class="font-display font-bold text-white uppercase tracking-wider mb-2 text-xs flex items-center gap-2">
-                        <i class="fa-solid fa-crosshairs text-emerald-500"></i> Deployment Objective
+                <div class="p-6 bg-slate-900/60 border border-slate-800 rounded-xl text-sm relative overflow-hidden">
+                    <h4 class="font-bold text-slate-200 uppercase tracking-wider mb-2 text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-crosshairs text-teal-400"></i> Deployment Objective
                     </h4>
-                    <p class="text-gray-400 leading-relaxed">
-                        Actively targetting an <strong class="text-white font-medium">Internship, Werkstudent (Working Student), or Trainee pathway</strong> within German corporate ecosystems across Controlling, Financial Architecture, or BI segments.
+                    <p class="text-slate-400 leading-relaxed">
+                        Actively targetting an <strong class="text-slate-200 font-medium">Internship, Werkstudent (Working Student), or Trainee pathway</strong> within German corporate ecosystems across Controlling, Financial Architecture, or BI segments.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Premium Grid Stack (Skills / Architecture) -->
-    <section id="skills" class="max-w-6xl mx-auto px-6 py-20 border-b border-gray-800/40">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16">
-            <div>
-                <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 02 . ARCHITECTURE</p>
-                <h2 class="font-display text-4xl font-bold text-white tracking-tight">Technical Stack Alignment</h2>
-            </div>
+    <!-- Skills Section -->
+    <section id="skills" class="max-w-5xl mx-auto px-6 py-20 border-b border-slate-900">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
+            <h3 class="text-2xl font-bold text-slate-100">Technical Stack Alignment</h3>
             <div class="flex flex-wrap gap-2 text-xs font-mono">
-                <span class="px-3 py-1 bg-gray-900/60 border border-gray-800 text-gray-300 rounded-md">English C1</span>
-                <span class="px-3 py-1 bg-gray-900/60 border border-emerald-500/20 text-emerald-400 rounded-md">German B2</span>
-                <span class="px-3 py-1 bg-gray-900/60 border border-gray-800 text-gray-300 rounded-md">Bengali Native</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-300 rounded">English C1</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-teal-500/30 text-teal-400 rounded">German B2</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-300 rounded">Bengali Native</span>
             </div>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
             <!-- Card 1 -->
-            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
-                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">01</div>
-                <h3 class="font-display text-xl font-bold text-white mb-3">SAP Ecosystem</h3>
-                <p class="text-sm text-gray-400 leading-relaxed mb-6">Structural mapping and transaction flows across enterprise landscapes.</p>
-                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">S/4HANA</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">BW/4HANA</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Signavio</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">SAP GUI</span>
+            <div class="p-8 bg-slate-900/40 border border-slate-800/80 rounded-2xl hover:border-slate-700 transition-all duration-300">
+                <h4 class="text-lg font-bold text-slate-100 mb-3">SAP Ecosystem</h4>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">Structural mapping and transaction flows across enterprise landscapes.</p>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono text-slate-400">
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">S/4HANA</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">BW/4HANA</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">Signavio</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">SAP GUI</span>
                 </div>
             </div>
 
             <!-- Card 2 -->
-            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
-                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">02</div>
-                <h3 class="font-display text-xl font-bold text-white mb-3">Analytics & BI</h3>
-                <p class="text-sm text-gray-400 leading-relaxed mb-6">Automating extraction pipelines and creating executive-ready scorecards.</p>
-                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Tableau</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">KNIME Pipelines</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Advanced Excel</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Power BI</span>
+            <div class="p-8 bg-slate-900/40 border border-slate-800/80 rounded-2xl hover:border-slate-700 transition-all duration-300">
+                <h4 class="text-lg font-bold text-slate-100 mb-3">Analytics & BI</h4>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">Automating extraction pipelines and creating executive-ready scorecards.</p>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono text-slate-400">
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">Tableau</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">KNIME Pipelines</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">Advanced Excel</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">Power BI</span>
                 </div>
             </div>
 
             <!-- Card 3 -->
-            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
-                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">03</div>
-                <h3 class="font-display text-xl font-bold text-white mb-3">Process Mining</h3>
-                <p class="text-sm text-gray-400 leading-relaxed mb-6">Analyzing execution paths to find explicit financial leaks and cycle bottlenecks.</p>
-                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
-                    <span class="px-2 py-0.5 bg-gray-900 border border-emerald-500/20 text-emerald-400 rounded">Celonis Certified</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">P2P Analysis</span>
-                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">O2C Workflows</span>
+            <div class="p-8 bg-slate-900/40 border border-slate-800/80 rounded-2xl hover:border-slate-700 transition-all duration-300">
+                <h4 class="text-lg font-bold text-slate-100 mb-3">Process Mining</h4>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">Analyzing execution paths to find explicit financial leaks and cycle bottlenecks.</p>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono text-slate-400">
+                    <span class="px-2 py-0.5 bg-slate-950 border border-teal-500/20 text-teal-400 rounded">Celonis Certified</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">P2P Analysis</span>
+                    <span class="px-2 py-0.5 bg-slate-950 border border-slate-800 rounded">O2C Workflows</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
-        <div class="mb-16">
-            <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 03 . VALIDATION CASE STUDIES</p>
-            <h2 class="font-display text-4xl font-bold text-white tracking-tight">Engineered Infrastructure</h2>
-        </div>
+    <section id="projects" class="max-w-5xl mx-auto px-6 py-20">
+        <h3 class="text-2xl font-bold text-slate-100 mb-12">Engineered Infrastructure</h3>
 
         <div class="space-y-6">
             <!-- Project Bar 1 -->
-            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-emerald-500/40 transition-all duration-300 group">
+            <div class="p-8 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-teal-500/30 transition-all duration-300 group">
                 <div class="space-y-2 max-w-3xl">
-                    <span class="text-xs font-mono text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 px-2 py-0.5 rounded">BI & DATA PIPELINES</span>
-                    <h4 class="font-display text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">Business Intelligence Deployment — ETL & SAP BW/4HANA</h4>
-                    <p class="text-sm text-gray-400 leading-relaxed">
+                    <span class="text-xs font-mono text-teal-400 bg-teal-500/5 border border-teal-500/10 px-2 py-0.5 rounded">BI & DATA PIPELINES</span>
+                    <h4 class="text-xl font-bold text-slate-100 group-hover:text-teal-400 transition-colors">Business Intelligence Deployment — ETL & SAP BW/4HANA</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
                         Conceptualization and configuration of functional ETL pipelines inside SAP BW/HANA framework. Validated database models across SAP GUI, cleaning structured arrays to fuel live executive financial monitoring systems.
                     </p>
                 </div>
                 <div class="w-full md:w-auto flex-shrink-0">
-                    <span class="inline-flex w-12 h-12 rounded-xl bg-gray-900 border border-gray-800 items-center justify-center text-white group-hover:bg-emerald-500 group-hover:text-black transition-all duration-300">
+                    <span class="inline-flex w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 items-center justify-center text-slate-300 group-hover:bg-teal-500 group-hover:text-slate-950 transition-all duration-300">
                         <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                     </span>
                 </div>
             </div>
 
             <!-- Project Bar 2 -->
-            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-emerald-500/40 transition-all duration-300 group">
+            <div class="p-8 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-teal-500/30 transition-all duration-300 group">
                 <div class="space-y-2 max-w-3xl">
                     <span class="text-xs font-mono text-teal-400 bg-teal-500/5 border border-teal-500/10 px-2 py-0.5 rounded">ERP ENTERPRISE RUNTIME</span>
-                    <h4 class="font-display text-2xl font-bold text-white group-hover:text-teal-400 transition-colors">ERPsim Suite — Realtime S/4HANA Corporate Allocation Simulation</h4>
+                    <h4 class="text-xl font-bold text-slate-100 group-hover:text-teal-400 transition-colors">ERPsim Suite — Realtime S/4HANA Corporate Allocation Simulation</h4>
                     <p class="text-sm text-gray-400 leading-relaxed">
                         Simulated live management of corporate metrics for a manufacturing firm using active SAP S/4HANA. Managed real-time dynamic pricing, procurement variables, and production logistics while maintaining stringent debt-to-equity bounds.
                     </p>
                 </div>
                 <div class="w-full md:w-auto flex-shrink-0">
-                    <span class="inline-flex w-12 h-12 rounded-xl bg-gray-900 border border-gray-800 items-center justify-center text-white group-hover:bg-teal-500 group-hover:text-black transition-all duration-300">
+                    <span class="inline-flex w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 items-center justify-center text-slate-300 group-hover:bg-teal-500 group-hover:text-slate-950 transition-all duration-300">
                         <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                     </span>
                 </div>
@@ -199,12 +179,12 @@
     </section>
 
     <!-- Footer System -->
-    <footer class="border-t border-gray-800/40 bg-gray-950/40 py-12 text-center relative z-10">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-gray-500">
+    <footer class="border-t border-slate-900 bg-slate-950 py-12 text-center">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-slate-500">
             <p class="font-mono text-xs">&copy; 2026 Koushik Barua. Encrypted Deployment via GitHub Pages.</p>
             <div class="flex space-x-6 text-lg">
-                <a href="mailto:koushikbarua77@gmail.com" class="hover:text-emerald-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
-                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="mailto:koushikbarua77@gmail.com" class="hover:text-teal-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="hover:text-teal-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
             </div>
         </div>
     </footer>
