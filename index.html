@@ -3,132 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koushik Barua | Finance, Controlling & BI Portfolio</title>
+    <title>Koushik Barua — Portfolio</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-teal-500 selection:text-slate-900">
+<body class="bg-[#030712] text-[#f3f4f6] antialiased selection:bg-emerald-500 selection:text-black">
 
-    <!-- Header -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-800">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="font-bold text-xl tracking-tight bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">KB.</a>
-            <nav class="flex space-x-6 text-sm font-medium text-slate-400">
-                <a href="#about" class="hover:text-teal-400 transition-colors">About</a>
-                <a href="#skills" class="hover:text-teal-400 transition-colors">Skills</a>
-                <a href="#projects" class="hover:text-teal-400 transition-colors">Projects</a>
-                <a href="#contact" class="hover:text-teal-400 transition-colors">Contact</a>
-            </nav>
+    <!-- Global Subtle Grid Overlay Effect -->
+    <div class="fixed inset-0 bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none z-50"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#030712]/70 border-b border-gray-800/60 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Left Side: Logo/Name -->
+            <a href="#" class="font-display font-bold text-lg md:text-xl tracking-tight text-white flex items-center gap-2">
+                KOUSHIK BARUA<span class="text-emerald-500 text-[10px] md:text-xs font-mono tracking-widest border border-emerald-500/30 px-2 py-0.5 rounded-md bg-emerald-500/5">FI/CO & BI</span>
+            </a>
+            
+            <!-- Right Side: High-Visibility Contact Actions -->
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <!-- LinkedIn Button -->
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-3 py-2 border border-gray-800 hover:border-emerald-500/50 bg-gray-900/30 text-gray-300 hover:text-emerald-400 rounded-lg transition-all duration-300 font-display text-xs tracking-wider uppercase flex items-center gap-2">
+                    <i class="fa-brands fa-linkedin text-sm"></i>
+                    <span class="hidden sm:inline">LinkedIn</span>
+                </a>
+                
+                <!-- Email Button -->
+                <a href="mailto:koushikbarua77@gmail.com" class="px-4 py-2 bg-white hover:bg-emerald-400 text-black font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-all duration-300 shadow-md shadow-white/5 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-sm"></i>
+                    <span>Email Me</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Intro Section -->
+    <header class="relative max-w-6xl mx-auto px-6 pt-24 pb-20 md:pt-36 md:pb-32 flex flex-col md:flex-row items-center justify-between gap-16 border-b border-gray-800/40">
+        <!-- Text Grid -->
+        <div class="flex-1 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-800 bg-gray-900/40 text-xs font-mono text-gray-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Open to Roles in Germany
+            </div>
+            <h1 class="font-display text-4xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+                Bridging Enterprise Finance <br class="hidden md:inline"><span class="bg-gradient-to-r from-emerald-400 via-teal-200 to-white bg-clip-text text-transparent">With Big Data.</span>
+            </h1>
+            <p class="max-w-xl text-gray-400 text-base md:text-lg leading-relaxed">
+                International Management & Information Systems student specialized in translating financial workflows into automated business intelligence. Expert tracking across SAP S/4HANA setups, Process Mining, and dynamic executive dashboards.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-4">
+                <a href="#projects" class="px-6 py-3.5 bg-white hover:bg-emerald-400 text-black font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-all duration-300 shadow-lg shadow-white/5 hover:shadow-emerald-500/10">Explore Case Studies</a>
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="px-6 py-3.5 border border-gray-800 hover:border-gray-600 bg-gray-900/20 text-gray-300 hover:text-white font-display font-bold text-xs tracking-wider uppercase rounded-lg transition-colors">LinkedIn Network</a>
+            </div>
+        </div>
+        
+        <!-- Premium Framed Profile Picture Container -->
+        <div class="w-64 h-64 md:w-80 md:h-80 flex-shrink-0 relative">
+            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 transition duration-1000"></div>
+            <div class="relative w-full h-full bg-gray-950 rounded-2xl border-2 border-gray-800 overflow-hidden shadow-2xl p-3 flex items-center justify-center">
+                <div class="w-full h-full rounded-xl overflow-hidden bg-gray-900 border border-gray-800">
+                    <img src="profile.jpg" alt="Koushik Barua" class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-500 scale-105 hover:scale-100">
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="max-w-5xl mx-auto px-6 py-20 md:py-32 flex flex-col md:flex-row items-center justify-between gap-12">
-        <div class="flex-1 order-2 md:order-1">
-            <p class="text-teal-400 font-mono text-sm mb-3">Hi, my name is</p>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight mb-4">Koushik Barua.</h1>
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-400 mb-6">Finance & Controlling | SAP FI/CO | Business Intelligence</h2>
-            <p class="max-w-xl text-slate-400 text-base md:text-lg mb-8 leading-relaxed">
-                I am an International Management & Information Systems Master's student at FH Südwestfalen. Combining a deep academic foundation in accounting with advanced enterprise IT architectures like SAP S/4HANA and Celonis Process Mining, I specialize in translating complex financial data into actionable corporate strategies.
-            </p>
-            <div class="flex flex-wrap gap-4">
-                <a href="#projects" class="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold rounded-lg transition-colors">View My Projects</a>
-                <a href="mailto:koushikbarua77@gmail.com" class="px-6 py-3 border border-slate-700 hover:border-teal-400 text-slate-300 hover:text-teal-400 font-semibold rounded-lg transition-colors">Get In Touch</a>
+    <!-- About / Dynamic Text Section -->
+    <section id="about" class="max-w-6xl mx-auto px-6 py-20 border-b border-gray-800/40">
+        <div class="grid md:grid-cols-12 gap-12">
+            <div class="md:col-span-4">
+                <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 01 . PERSPECTIVE</p>
+                <h2 class="font-display text-3xl font-bold text-white tracking-tight">The Core Paradigm</h2>
             </div>
-        </div>
-        <!-- Profile Picture Container -->
-        <div class="w-64 h-64 md:w-80 md:h-80 order-1 md:order-2 flex-shrink-0 relative group">
-            <div class="absolute inset-0 bg-teal-500 rounded-2xl translate-x-3 translate-y-3 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300 z-0"></div>
-            <div class="absolute inset-0 bg-slate-800 rounded-2xl z-10 overflow-hidden border border-slate-700">
-                <img src="profile.jpg" alt="Koushik Barua" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
-            </div>
-        </div>
-    </section>
-    
-
-    <!-- About Section -->
-    <section id="about" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800/60">
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="md:col-span-1">
-                <h3 class="text-xs uppercase font-mono tracking-widest text-teal-500 font-bold mb-2">01. Background</h3>
-                <h2 class="text-2xl font-bold text-slate-200">About Me</h2>
-            </div>
-            <div class="md:col-span-2 text-slate-400 space-y-4">
+            <div class="md:col-span-8 text-gray-400 text-lg space-y-6 leading-relaxed font-light">
                 <p>
-                    I am a Master's student in International Management & Information Systems at FH Südwestfalen, with a strong academic foundation in Accounting (BBA & MBA, both graded 1.1–1.4). My focus is on Finance, Controlling, and Business Intelligence in international corporate environments.
+                    I approach corporate steering from a dual architecture standpoint: combining a rigorous structural foundation in accounting with highly modern data engineering logic.
                 </p>
                 <p>
-                    Through my academic projects, I have gained hands-on experience with SAP S/4HANA, SAP BW/4HANA, and SAP Signavio — simulating real-world financial workflows, controlling reports, and end-to-end business processes. I work with Excel (advanced), Tableau, and KNIME for data analysis, KPI monitoring, and financial reporting.
+                    Rather than operating on isolated historical accounting spreadsheets, my work centers on engineering live systems—leveraging SAP S/4HANA workflows, executing structured automated ETL models via KNIME, and structuring actionable dashboards in Tableau.
                 </p>
-                <p>
-                    I hold a Celonis Process Mining certification and have applied ETL and BI concepts in projects involving financial data flows and performance dashboards. To further strengthen my professional profile in Germany, I completed a certified German language program and obtained my B2 certificate, communicating confidently at B1–B2 level and continuously advancing toward full professional fluency.
-                </p>
-                <div class="mt-6 p-4 bg-teal-500/10 border border-teal-500/20 rounded-lg text-slate-300">
-                    <p class="text-sm font-semibold text-teal-400 mb-1"><i class="fa-solid fa-bullseye mr-2"></i>Current Goal:</p>
-                    <p class="text-sm">
-                        I am currently seeking an <strong>Internship, Werkstudent, or Trainee role in Controlling, Finance, or Business Intelligence</strong> where I can contribute analytically, grow within an international team, and bridge academic knowledge with real corporate impact.
+                
+                <!-- Deployment Objective Block -->
+                <div class="p-6 bg-gradient-to-br from-gray-900/50 to-gray-950 border border-gray-800 rounded-xl text-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                    <h4 class="font-display font-bold text-white uppercase tracking-wider mb-2 text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-crosshairs text-emerald-500"></i> Deployment Objective
+                    </h4>
+                    <p class="text-gray-400 leading-relaxed">
+                        Actively targetting an <strong class="text-white font-medium">Internship, Werkstudent (Working Student), or Trainee pathway</strong> within German corporate ecosystems across Controlling, Financial Architecture, or BI segments.
                     </p>
                 </div>
-                <div class="pt-4">
-                    <h4 class="text-sm font-semibold text-slate-300 mb-2">Languages:</h4>
-                    <div class="flex flex-wrap gap-2 text-xs">
-                        <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700">English (C1 - Fluent)</span>
-                        <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700">German (B2 - Certified)</span>
-                        <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700">Bengali (Native)</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800/60">
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="md:col-span-1">
-                <h3 class="text-xs uppercase font-mono tracking-widest text-teal-500 font-bold mb-2">02. Expertise</h3>
-                <h2 class="text-2xl font-bold text-slate-200">Core Capabilities</h2>
+    <!-- Premium Grid Stack (Skills / Architecture) -->
+    <section id="skills" class="max-w-6xl mx-auto px-6 py-20 border-b border-gray-800/40">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16">
+            <div>
+                <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 02 . ARCHITECTURE</p>
+                <h2 class="font-display text-4xl font-bold text-white tracking-tight">Technical Stack Alignment</h2>
             </div>
-            <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="p-5 bg-slate-800/40 rounded-xl border border-slate-800">
-                    <div class="text-teal-400 text-xl mb-3"><i class="fa-solid fa-database"></i></div>
-                    <h4 class="text-slate-200 font-semibold mb-2">SAP Ecosystem</h4>
-                    <p class="text-sm text-slate-400">SAP S/4HANA, SAP BW/4HANA, SAP GUI, SAP Signavio.</p>
+            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                <span class="px-3 py-1 bg-gray-900/60 border border-gray-800 text-gray-300 rounded-md">English C1</span>
+                <span class="px-3 py-1 bg-gray-900/60 border border-emerald-500/20 text-emerald-400 rounded-md">German B2</span>
+                <span class="px-3 py-1 bg-gray-900/60 border border-gray-800 text-gray-300 rounded-md">Bengali Native</span>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
+                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">01</div>
+                <h3 class="font-display text-xl font-bold text-white mb-3">SAP Ecosystem</h3>
+                <p class="text-sm text-gray-400 leading-relaxed mb-6">Structural mapping and transaction flows across enterprise landscapes.</p>
+                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">S/4HANA</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">BW/4HANA</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Signavio</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">SAP GUI</span>
                 </div>
-                <div class="p-5 bg-slate-800/40 rounded-xl border border-slate-800">
-                    <div class="text-teal-400 text-xl mb-3"><i class="fa-solid fa-chart-pie"></i></div>
-                    <h4 class="text-slate-200 font-semibold mb-2">Data & Analytics</h4>
-                    <p class="text-sm text-slate-400">Tableau, KNIME, Advanced MS Excel (Macros, VLOOKUP, Pivot Tables).</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
+                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">02</div>
+                <h3 class="font-display text-xl font-bold text-white mb-3">Analytics & BI</h3>
+                <p class="text-sm text-gray-400 leading-relaxed mb-6">Automating extraction pipelines and creating executive-ready scorecards.</p>
+                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Tableau</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">KNIME Pipelines</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Advanced Excel</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">Power BI</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl relative group hover:border-gray-700 transition-all duration-300">
+                <div class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-emerald-400 text-sm mb-6 font-mono">03</div>
+                <h3 class="font-display text-xl font-bold text-white mb-3">Process Mining</h3>
+                <p class="text-sm text-gray-400 leading-relaxed mb-6">Analyzing execution paths to find explicit financial leaks and cycle bottlenecks.</p>
+                <div class="flex flex-wrap gap-1.5 text-[11px] font-mono text-gray-400">
+                    <span class="px-2 py-0.5 bg-gray-900 border border-emerald-500/20 text-emerald-400 rounded">Celonis Certified</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">P2P Analysis</span>
+                    <span class="px-2 py-0.5 bg-gray-900 border border-gray-800/80 rounded">O2C Workflows</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800/60">
-        <h3 class="text-xs uppercase font-mono tracking-widest text-teal-500 font-bold mb-2">03. Portfolios</h3>
-        <h2 class="text-2xl font-bold text-slate-200 mb-10">Academic Projects</h2>
-        <div class="space-y-8">
-            <div class="p-6 bg-slate-800/30 rounded-xl border border-slate-800">
-                <h4 class="text-xl font-bold text-slate-200 mb-2">Business Intelligence Project - ETL & SAP BW/4HANA</h4>
-                <p class="text-slate-400 text-sm">Konzeption und Implementierung von ETL-Pipelines in SAP BW/HANA zur Extraktion und Transformation strukturierter Daten. Validierung der Datenmodelle in SAP GUI und Verknüpfung der Ergebnisse mit KPI-basierten Reporting-Dashboards.</p>
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
+        <div class="mb-16">
+            <p class="font-mono text-xs text-emerald-500 tracking-widest uppercase mb-3">// 03 . VALIDATION CASE STUDIES</p>
+            <h2 class="font-display text-4xl font-bold text-white tracking-tight">Engineered Infrastructure</h2>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Project Bar 1 -->
+            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-emerald-500/40 transition-all duration-300 group">
+                <div class="space-y-2 max-w-3xl">
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 px-2 py-0.5 rounded">BI & DATA PIPELINES</span>
+                    <h4 class="font-display text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">Business Intelligence Deployment — ETL & SAP BW/4HANA</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Conceptualization and configuration of functional ETL pipelines inside SAP BW/HANA framework. Validated database models across SAP GUI, cleaning structured arrays to fuel live executive financial monitoring systems.
+                    </p>
+                </div>
+                <div class="w-full md:w-auto flex-shrink-0">
+                    <span class="inline-flex w-12 h-12 rounded-xl bg-gray-900 border border-gray-800 items-center justify-center text-white group-hover:bg-emerald-500 group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </span>
+                </div>
             </div>
-            <div class="p-6 bg-slate-800/30 rounded-xl border border-slate-800">
-                <h4 class="text-xl font-bold text-slate-200 mb-2">ERPsim Game - S/4HANA Simulation (Muesli Company)</h4>
-                <p class="text-slate-400 text-sm">Strategische Unternehmenssteuerung in SAP S/4HANA mit Fokus auf Preisgestaltung, Beschaffung und Produktionsplanung in Echtzeit. Überwachung der Unternehmensperformance anhand von Finanz-KPIs.</p>
+
+            <!-- Project Bar 2 -->
+            <div class="p-8 bg-gray-950 border border-gray-800 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-emerald-500/40 transition-all duration-300 group">
+                <div class="space-y-2 max-w-3xl">
+                    <span class="text-xs font-mono text-teal-400 bg-teal-500/5 border border-teal-500/10 px-2 py-0.5 rounded">ERP ENTERPRISE RUNTIME</span>
+                    <h4 class="font-display text-2xl font-bold text-white group-hover:text-teal-400 transition-colors">ERPsim Suite — Realtime S/4HANA Corporate Allocation Simulation</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Simulated live management of corporate metrics for a manufacturing firm using active SAP S/4HANA. Managed real-time dynamic pricing, procurement variables, and production logistics while maintaining stringent debt-to-equity bounds.
+                    </p>
+                </div>
+                <div class="w-full md:w-auto flex-shrink-0">
+                    <span class="inline-flex w-12 h-12 rounded-xl bg-gray-900 border border-gray-800 items-center justify-center text-white group-hover:bg-teal-500 group-hover:text-black transition-all duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-800/60 text-center">
-        <h3 class="text-xs uppercase font-mono tracking-widest text-teal-500 font-bold mb-2">04. Connection</h3>
-        <h2 class="text-3xl font-bold text-slate-200 mb-4">Let's Connect</h2>
-        <div class="flex justify-center space-x-6 text-2xl mb-8">
-            <a href="mailto:koushikbarua77@gmail.com" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
-            <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+    <!-- Footer System -->
+    <footer class="border-t border-gray-800/40 bg-gray-950/40 py-12 text-center relative z-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-gray-500">
+            <p class="font-mono text-xs">&copy; 2026 Koushik Barua. Encrypted Deployment via GitHub Pages.</p>
+            <div class="flex space-x-6 text-lg">
+                <a href="mailto:koushikbarua77@gmail.com" class="hover:text-emerald-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://linkedin.com/in/baruakoushik" target="_blank" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
         </div>
-        <p class="text-xs font-mono text-slate-600">&copy; 2026 Koushik Barua. All rights reserved.</p>
-    </section>
+    </footer>
 
 </body>
 </html>
