@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Process Modeling – Koushik Barua</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f1ea;
+      --cream: #ede8df;
+      --gold: #c9a84c;
+      --gold-light: #e8d49a;
+      --muted: #6b6560;
+      --line: rgba(14,14,14,0.12);
+      --amazon: #FF9900;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 4rem;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      color: var(--ink); text-decoration: none; letter-spacing: 0.04em;
+    }
+    .nav-back {
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .case-hero {
+      min-height: 60vh;
+      background: var(--ink);
+      color: var(--paper);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 8rem 4rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .case-hero::before {
+      content: 'BPMN';
+      position: absolute; right: 3rem; bottom: -1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 14vw, 14rem);
+      color: rgba(255,255,255,0.04);
+      line-height: 1; pointer-events: none;
+      user-select: none;
+    }
+    .hero-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .meta-pill {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.2); padding: 0.35rem 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .meta-pill.highlight { border-color: var(--gold); color: var(--gold); }
+    .case-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      line-height: 1.08; max-width: 16ch;
+      margin-bottom: 1.5rem;
+    }
+    .case-hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-summary {
+      font-size: 1rem; color: rgba(255,255,255,0.55);
+      line-height: 1.8; max-width: 55ch;
+    }
+
+    /* ── LAYOUT ── */
+    .case-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 4rem;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      padding: 4rem 3rem 4rem 0;
+      border-right: 1px solid var(--line);
+      position: sticky; top: 5rem; align-self: start;
+    }
+    .sidebar-section { margin-bottom: 2.5rem; }
+    .sidebar-label {
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .sidebar-item { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; line-height: 1.5; }
+    .sidebar-item strong { color: var(--ink); font-weight: 500; }
+    .skill-tag {
+      display: inline-block;
+      font-size: 0.68rem; letter-spacing: 0.06em;
+      border: 1px solid var(--line); padding: 0.3rem 0.65rem;
+      color: var(--muted); background: var(--cream); margin: 0.2rem 0.2rem 0 0;
+    }
+    .toc { list-style: none; }
+    .toc li { margin-bottom: 0.5rem; }
+    .toc a {
+      font-size: 0.8rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toc a::before {
+      content: ''; width: 1.2rem; height: 1px;
+      background: var(--line); display: inline-block; flex-shrink: 0;
+      transition: width 0.2s, background 0.2s;
+    }
+    .toc a:hover { color: var(--gold); }
+    .toc a:hover::before { width: 1.8rem; background: var(--gold); }
+
+    /* ── MAIN CONTENT ── */
+    .main-content { padding: 4rem 0 4rem 4rem; }
+
+    .cs-section { margin-bottom: 5rem; }
+    .cs-section:last-child { margin-bottom: 2rem; }
+
+    .section-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .cs-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; margin-bottom: 1.5rem;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--line);
+    }
+    .cs-section p {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.85;
+      margin-bottom: 1.1rem;
+    }
+    .cs-section p strong { color: var(--ink); font-weight: 500; }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: var(--ink); color: var(--paper);
+      padding: 2rem 2.5rem; margin: 2rem 0;
+      border-left: 3px solid var(--gold);
+    }
+    .highlight-box p {
+      color: rgba(255,255,255,0.7); font-size: 0.92rem; margin-bottom: 0;
+    }
+    .highlight-box strong { color: var(--gold-light); }
+
+    /* ── PROCESS FLOW DIAGRAM ── */
+    .flow-diagram {
+      background: var(--cream); padding: 2.5rem;
+      margin: 2rem 0; overflow-x: auto;
+    }
+    .flow-diagram h3 {
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      margin-bottom: 1.75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.72rem;
+    }
+    .swimlane-wrap { min-width: 700px; }
+    .swimlane {
+      display: flex; align-items: stretch; margin-bottom: 2px;
+    }
+    .lane-label {
+      width: 130px; flex-shrink: 0;
+      background: var(--ink); color: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.75rem 0.5rem; text-align: center; line-height: 1.4;
+    }
+    .lane-label.alt { background: #1e1e1e; }
+    .lane-steps {
+      flex: 1; background: white;
+      display: flex; align-items: center;
+      padding: 0.75rem 1rem; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .step-box {
+      background: var(--paper); border: 1px solid var(--line);
+      font-size: 0.72rem; padding: 0.5rem 0.75rem;
+      text-align: center; min-width: 90px; line-height: 1.3;
+      position: relative;
+    }
+    .step-box.gateway {
+      background: var(--gold-light); border-color: var(--gold);
+      transform: rotate(45deg); width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      min-width: unset; padding: 0; flex-shrink: 0;
+    }
+    .step-box.gateway span {
+      transform: rotate(-45deg); font-size: 0.6rem; display: block;
+      text-align: center; line-height: 1.2;
+    }
+    .step-box.start {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #2ecc71; border: none; min-width: unset;
+      padding: 0; flex-shrink: 0;
+    }
+    .step-box.end {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--ink); border: 3px solid var(--ink);
+      outline: 2px solid var(--ink); outline-offset: 2px;
+      min-width: unset; padding: 0; flex-shrink: 0;
+    }
+    .arrow {
+      font-size: 0.85rem; color: var(--muted); flex-shrink: 0;
+    }
+
+    /* ── PROCESS STEPS LIST ── */
+    .process-steps { margin: 2rem 0; }
+    .process-step {
+      display: flex; gap: 1.5rem; padding: 1.5rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .process-step:last-child { border-bottom: 1px solid var(--line); }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; color: var(--gold-light);
+      line-height: 1; min-width: 2.5rem;
+    }
+    .step-content h4 {
+      font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.4rem;
+    }
+    .step-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 0; }
+    .step-badge {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.1em;
+      text-transform: uppercase; background: var(--cream);
+      border: 1px solid var(--line); padding: 0.2rem 0.5rem;
+      color: var(--muted); margin-left: 0.5rem; vertical-align: middle;
+    }
+
+    /* ── ELEMENTS TABLE ── */
+    .elements-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+    .elements-table th {
+      text-align: left; padding: 0.6rem 1rem;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--ink); color: var(--gold);
+    }
+    .elements-table td {
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--line);
+      color: var(--muted); vertical-align: top;
+    }
+    .elements-table td:first-child { color: var(--ink); font-weight: 500; }
+    .elements-table tr:hover td { background: var(--cream); }
+    .elem-type {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.2rem 0.45rem;
+      border: 1px solid var(--line); color: var(--muted);
+    }
+    .elem-type.task { border-color: #4a90d9; color: #4a90d9; }
+    .elem-type.gateway { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+    .elem-type.event { border-color: #2ecc71; color: #2ecc71; }
+    .elem-type.subprocess { border-color: #9b59b6; color: #9b59b6; }
+
+    /* ── DIAGRAM IMAGE PLACEHOLDER ── */
+    .diagram-frame {
+      border: 1px solid var(--line); margin: 2rem 0; overflow: hidden;
+      position: relative;
+    }
+    .diagram-frame img {
+      width: 100%; display: block;
+      filter: contrast(1.05);
+    }
+    .diagram-caption {
+      background: var(--cream); padding: 0.75rem 1.25rem;
+      font-size: 0.78rem; color: var(--muted);
+      border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .diagram-caption span { font-style: italic; }
+    .diagram-caption a {
+      font-size: 0.72rem; color: var(--gold); text-decoration: none;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    /* ── LEARNINGS ── */
+    .learnings-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;
+    }
+    .learning-card {
+      background: var(--cream); padding: 1.5rem;
+      border-top: 2px solid var(--gold);
+    }
+    .learning-card h4 { font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .learning-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    /* ── NEXT/PREV ── */
+    .case-nav {
+      background: var(--ink); color: var(--paper);
+      display: grid; grid-template-columns: 1fr 1fr;
+      margin-top: 4rem;
+    }
+    .case-nav-item {
+      padding: 2.5rem 3rem; text-decoration: none; color: var(--paper);
+      transition: background 0.25s;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .case-nav-item:last-child { border-right: none; }
+    .case-nav-item:hover { background: rgba(255,255,255,0.05); }
+    .nav-dir { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .nav-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .case-hero { padding: 6rem 1.5rem 3rem; }
+      .case-body { grid-template-columns: 1fr; padding: 0 1.5rem; }
+      .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding: 2rem 0; }
+      .main-content { padding: 2.5rem 0; }
+      .learnings-grid { grid-template-columns: 1fr; }
+      .case-nav { grid-template-columns: 1fr; }
+      .case-nav-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Koushik Barua</a>
+  <a href="index.html#projects" class="nav-back">← Back to Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<div class="case-hero">
+  <div class="hero-meta reveal">
+    <span class="meta-pill highlight">Academic Project</span>
+    <span class="meta-pill">Apr 2023 – Jul 2023</span>
+    <span class="meta-pill">FH Südwestfalen</span>
+    <span class="meta-pill">Information Management</span>
+  </div>
+  <h1 class="reveal">Business Process Modeling<br />with <em>SAP Signavio</em></h1>
+  <p class="hero-summary reveal">
+    Designed and documented a full end-to-end BPMN 2.0 process model for the Amazon DTM9 Sortation Centre — covering inbound logistics, product sorting, quality control, and outbound dispatch across five organisational teams.
+  </p>
+</div>
+
+<!-- BODY -->
+<div class="case-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Project Details</div>
+      <div class="sidebar-item"><strong>Course</strong><br/>Information Management</div>
+      <div class="sidebar-item" style="margin-top:0.75rem;"><strong>University</strong><br/>FH Südwestfalen, Soest</div>
+      <div class="sidebar-item" style="margin-top:0.75rem;"><strong>Period</strong><br/>Apr – Jul 2023</div>
+      <div class="sidebar-item" style="margin-top:0.75rem;"><strong>Standard</strong><br/>BPMN 2.0</div>
+      <div class="sidebar-item" style="margin-top:0.75rem;"><strong>Tool</strong><br/>SAP Signavio (Academic)</div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Skills Demonstrated</div>
+      <span class="skill-tag">Business Process Modeling</span>
+      <span class="skill-tag">BPMN 2.0</span>
+      <span class="skill-tag">SAP Signavio</span>
+      <span class="skill-tag">BPA</span>
+      <span class="skill-tag">RPA</span>
+      <span class="skill-tag">Process Mining</span>
+      <span class="skill-tag">Workflow Design</span>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Contents</div>
+      <ul class="toc">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#context">Business Context</a></li>
+        <li><a href="#process">Process Architecture</a></li>
+        <li><a href="#diagram">Process Diagram</a></li>
+        <li><a href="#elements">BPMN Elements</a></li>
+        <li><a href="#subprocess">Sub-process</a></li>
+        <li><a href="#learnings">Key Learnings</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <section class="cs-section reveal" id="overview">
+      <div class="section-eyebrow">01 — Overview</div>
+      <h2>Project Overview</h2>
+      <p>As part of the <strong>Information Management</strong> coursework at FH Südwestfalen, I participated in a Business Process Modeling project using <strong>SAP Signavio</strong> — one of the leading enterprise-grade process modeling tools used by global corporations.</p>
+      <p>The project tasked me with modeling the <strong>product sortation process</strong> of a real-world logistics environment: the <strong>Amazon DTM9 Sortation Centre</strong> in Witten, Germany — a facility I had direct operational knowledge of through my part-time role there.</p>
+      <div class="highlight-box">
+        <p><strong>Why this matters:</strong> Business Process Modeling is the foundation of process improvement, automation (BPA/RPA), and ERP implementation. In Controlling and Finance, understanding how to document and analyse business processes is essential for identifying cost drivers, inefficiencies, and automation opportunities.</p>
+      </div>
+    </section>
+
+    <!-- CONTEXT -->
+    <section class="cs-section reveal" id="context">
+      <div class="section-eyebrow">02 — Business Context</div>
+      <h2>The DTM9 Sortation Centre</h2>
+      <p>DTM9 is an <strong>Amazon Sortation Centre</strong> that receives products from multiple fulfilment centres and sorts them by delivery destination before dispatching to last-mile delivery stations.</p>
+      <p>The centre operates with five distinct organisational units, each with clearly defined responsibilities in the sortation workflow:</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>Inbound Team <span class="step-badge">Lane 1</span></h4>
+            <p>Receives trucks from fulfilment centres, unloads products, and performs initial weight-based sorting. Products under 15 kg proceed to the Sortation Area; products over 15 kg are redirected to the Non-Con (non-conveyable) Area.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>Sortation Team <span class="step-badge">Lane 2</span></h4>
+            <p>Receives products from the Inbound Area and sorts them by delivery destination. Products with issues are escalated to the Problem Solving Team via a collapsed sub-process.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>Problem Solving Team <span class="step-badge">Lane 3</span></h4>
+            <p>Handles exception cases — damaged products or incorrect labels — identified by any team. Collects, identifies, fixes, and returns products to the buffer area. Modeled as a separate reusable sub-process.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h4>Buffer &amp; Quality Team <span class="step-badge">Lane 4</span></h4>
+            <p>Scans container labels, checks destination accuracy, fixes issues where found, and approves containers for loading. Acts as the quality gate before outbound dispatch.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">05</div>
+          <div class="step-content">
+            <h4>Outbound Team <span class="step-badge">Lane 5</span></h4>
+            <p>Scans labels and checks CPT (Critical Pull Time). Urgency-based gateway determines whether containers are loaded immediately or held in the Buffer Area. Dispatches trucks to delivery centres.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS ARCHITECTURE -->
+    <section class="cs-section reveal" id="process">
+      <div class="section-eyebrow">03 — Architecture</div>
+      <h2>Process Architecture</h2>
+      <p>The main process was modeled as a <strong>Pool</strong> representing the DTM9 Sort Centre, with five <strong>Swimlanes</strong> for each organisational unit. This structure visually communicates both <em>what</em> happens and <em>who</em> is responsible — a key principle of BPMN 2.0.</p>
+
+      <!-- Simplified interactive swimlane diagram -->
+      <div class="flow-diagram">
+        <h3>Simplified Flow — Amazon DTM9 Sortation Process</h3>
+        <div class="swimlane-wrap">
+
+          <div class="swimlane">
+            <div class="lane-label">Inbound<br/>Team</div>
+            <div class="lane-steps">
+              <div class="step-box start"></div>
+              <div class="arrow">→</div>
+              <div class="step-box">Unload Trucks</div>
+              <div class="arrow">→</div>
+              <div class="step-box">Sort by Weight</div>
+              <div class="arrow">→</div>
+              <div class="step-box gateway"><span>Weight?</span></div>
+              <div class="arrow">→</div>
+              <div class="step-box">→ Sortation<br/>→ Non-Con</div>
+            </div>
+          </div>
+
+          <div class="swimlane">
+            <div class="lane-label alt">Sortation<br/>Team</div>
+            <div class="lane-steps">
+              <div class="step-box">Receive from<br/>Inbound</div>
+              <div class="arrow">→</div>
+              <div class="step-box">Sort by<br/>Destination</div>
+              <div class="arrow">→</div>
+              <div class="step-box gateway"><span>Problem?</span></div>
+              <div class="arrow">→</div>
+              <div class="step-box">Containers to<br/>Buffer Area</div>
+            </div>
+          </div>
+
+          <div class="swimlane">
+            <div class="lane-label">Problem<br/>Solving</div>
+            <div class="lane-steps">
+              <div class="step-box" style="border-color:#9b59b6;color:#9b59b6;">Problem Solving<br/>Sub-process</div>
+              <div class="arrow">→</div>
+              <div class="step-box">Take to<br/>Buffer Area</div>
+            </div>
+          </div>
+
+          <div class="swimlane">
+            <div class="lane-label alt">Buffer &amp;<br/>Quality</div>
+            <div class="lane-steps">
+              <div class="step-box">Scan Container<br/>Labels</div>
+              <div class="arrow">→</div>
+              <div class="step-box">Check<br/>Destination</div>
+              <div class="arrow">→</div>
+              <div class="step-box gateway"><span>Problem?</span></div>
+              <div class="arrow">→</div>
+              <div class="step-box">Approve for<br/>Loading</div>
+            </div>
+          </div>
+
+          <div class="swimlane">
+            <div class="lane-label">Outbound<br/>Team</div>
+            <div class="lane-steps">
+              <div class="step-box">Check CPT<br/>by Scan</div>
+              <div class="arrow">→</div>
+              <div class="step-box gateway"><span>Urgent?</span></div>
+              <div class="arrow">→</div>
+              <div class="step-box">Load Trucks</div>
+              <div class="arrow">→</div>
+              <div class="step-box">Trucks Leave →<br/>Delivery Centres</div>
+              <div class="arrow">→</div>
+              <div class="step-box end"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <p>The diagram uses <strong>Exclusive (XOR) Gateways</strong> at key decision points — weight check, problem detection, and CPT urgency — and a <strong>Parallel Gateway</strong> in the outbound flow. This precisely models the conditional logic inherent in real warehouse operations.</p>
+    </section>
+
+    <!-- DIAGRAM -->
+    <section class="cs-section reveal" id="diagram">
+      <div class="section-eyebrow">04 — Diagrams</div>
+      <h2>SAP Signavio Diagrams</h2>
+      <p>The following diagrams were created in <strong>SAP Signavio Academic Edition</strong>, exported as process documentation. The main diagram (Revision 11) represents the final, validated version submitted as part of the coursework.</p>
+
+      <div class="diagram-frame">
+        <div style="background:#141414; overflow-x:auto;">
+          <svg width="100%" viewBox="0 0 900 580" role="img" style="display:block; min-width:700px;">
+            <title>Amazon DTM9 Sortation Process BPMN Diagram</title>
+            <desc>BPMN 2.0 swimlane diagram showing the full product sortation process at Amazon DTM9.</desc>
+            <defs><marker id="da" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+            <rect x="10" y="10" width="880" height="562" rx="4" fill="none" stroke="#3a3a3a" stroke-width="1"/>
+            <rect x="10" y="10" width="30" height="562" rx="4" fill="#1e1e1e" stroke="#3a3a3a" stroke-width="1"/>
+            <text x="25" y="291" text-anchor="middle" dominant-baseline="central" fill="#888" font-size="11" font-weight="500" letter-spacing="2" font-family="sans-serif" transform="rotate(-90,25,291)">DTM9 SORT CENTRE</text>
+            <rect x="40" y="10" width="850" height="110" fill="#1a1a1a"/>
+            <rect x="40" y="120" width="850" height="110" fill="#161616"/>
+            <rect x="40" y="230" width="850" height="100" fill="#1a1a1a"/>
+            <rect x="40" y="330" width="850" height="110" fill="#161616"/>
+            <rect x="40" y="440" width="850" height="132" fill="#1a1a1a"/>
+            <line x1="40" y1="120" x2="890" y2="120" stroke="#2a2a2a" stroke-width="1"/>
+            <line x1="40" y1="230" x2="890" y2="230" stroke="#2a2a2a" stroke-width="1"/>
+            <line x1="40" y1="330" x2="890" y2="330" stroke="#2a2a2a" stroke-width="1"/>
+            <line x1="40" y1="440" x2="890" y2="440" stroke="#2a2a2a" stroke-width="1"/>
+            <rect x="40" y="10" width="70" height="562" fill="#1c1c1c" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="75" y="65" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="500" font-family="sans-serif" transform="rotate(-90,75,65)">Inbound</text>
+            <text x="75" y="175" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="500" font-family="sans-serif" transform="rotate(-90,75,175)">Sortation</text>
+            <text x="75" y="278" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="500" font-family="sans-serif" transform="rotate(-90,75,278)">Problem Solving</text>
+            <text x="75" y="385" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="500" font-family="sans-serif" transform="rotate(-90,75,385)">Buffer &amp; Quality</text>
+            <text x="75" y="490" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="500" font-family="sans-serif" transform="rotate(-90,75,490)">Outbound</text>
+            <!-- Start -->
+            <circle cx="130" cy="65" r="13" fill="#1e3a1e" stroke="#2ecc71" stroke-width="1.5"/>
+            <text x="130" y="86" text-anchor="middle" fill="#888" font-size="8" font-family="sans-serif">Trucks Arrive</text>
+            <!-- Inbound tasks -->
+            <rect x="158" y="42" width="90" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="203" y="62" text-anchor="middle" fill="#b0b0d0" font-size="10" font-family="sans-serif">Unload Trucks</text>
+            <rect x="264" y="42" width="90" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="309" y="62" text-anchor="middle" fill="#b0b0d0" font-size="10" font-family="sans-serif">Sort by Weight</text>
+            <!-- Weight gateway -->
+            <polygon points="382,65 402,45 422,65 402,85" fill="#2a2000" stroke="#c9a84c" stroke-width="1.5"/>
+            <line x1="395" y1="58" x2="409" y2="72" stroke="#c9a84c" stroke-width="1"/>
+            <line x1="409" y1="58" x2="395" y2="72" stroke="#c9a84c" stroke-width="1"/>
+            <text x="402" y="96" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif">Weight?</text>
+            <!-- Sortation area -->
+            <rect x="434" y="42" width="90" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="479" y="62" text-anchor="middle" fill="#b0b0d0" font-size="10" font-family="sans-serif">→ Sortation Area</text>
+            <!-- Non-con -->
+            <rect x="370" y="99" width="90" height="28" rx="4" fill="#2a1a1a" stroke="#7a4a4a" stroke-width="1"/>
+            <text x="415" y="113" text-anchor="middle" fill="#d08080" font-size="9" font-family="sans-serif">→ Non-Con Area</text>
+            <!-- Inbound arrows -->
+            <line x1="143" y1="65" x2="157" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="248" y1="65" x2="263" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="354" y1="65" x2="381" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="422" y1="65" x2="433" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <text x="427" y="60" fill="#666" font-size="8" font-family="sans-serif">&lt;15kg</text>
+            <line x1="402" y1="85" x2="402" y2="98" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <text x="408" y="95" fill="#666" font-size="8" font-family="sans-serif">&gt;15kg</text>
+            <!-- Sortation lane -->
+            <rect x="434" y="138" width="90" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="479" y="158" text-anchor="middle" fill="#b0b0d0" font-size="9" font-family="sans-serif">Receive from Inbound</text>
+            <rect x="540" y="138" width="90" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="585" y="158" text-anchor="middle" fill="#b0b0d0" font-size="9" font-family="sans-serif">Sort by Destination</text>
+            <polygon points="656,161 676,141 696,161 676,181" fill="#2a2000" stroke="#c9a84c" stroke-width="1.5"/>
+            <line x1="669" y1="154" x2="683" y2="168" stroke="#c9a84c" stroke-width="1"/>
+            <line x1="683" y1="154" x2="669" y2="168" stroke="#c9a84c" stroke-width="1"/>
+            <text x="676" y="190" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif">Problem?</text>
+            <rect x="714" y="138" width="90" height="46" rx="4" fill="#1e2e1e" stroke="#4a7a4a" stroke-width="1"/>
+            <text x="759" y="158" text-anchor="middle" fill="#90c090" font-size="9" font-family="sans-serif">Containers to Buffer</text>
+            <line x1="479" y1="88" x2="479" y2="137" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="524" y1="161" x2="539" y2="161" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="630" y1="161" x2="655" y2="161" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="696" y1="161" x2="713" y2="161" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <text x="704" y="156" fill="#666" font-size="8" font-family="sans-serif">NO</text>
+            <line x1="676" y1="181" x2="676" y2="247" stroke="#c9a84c" stroke-width="1" marker-end="url(#da)"/>
+            <text x="681" y="216" fill="#c9a84c" font-size="8" font-family="sans-serif">YES</text>
+            <!-- Problem Solving lane -->
+            <rect x="634" y="248" width="108" height="52" rx="4" fill="#1a1a2e" stroke="#6a6aaa" stroke-width="1.5"/>
+            <text x="688" y="268" text-anchor="middle" fill="#9090d0" font-size="9" font-family="sans-serif">Problem Solving</text>
+            <text x="688" y="282" text-anchor="middle" fill="#9090d0" font-size="9" font-family="sans-serif">Sub-process</text>
+            <rect x="678" y="291" width="20" height="6" rx="1" fill="none" stroke="#6a6aaa" stroke-width="1"/>
+            <line x1="688" y1="291" x2="688" y2="297" stroke="#6a6aaa" stroke-width="1"/>
+            <line x1="683" y1="294" x2="693" y2="294" stroke="#6a6aaa" stroke-width="1"/>
+            <rect x="760" y="248" width="90" height="52" rx="4" fill="#1e2e1e" stroke="#4a7a4a" stroke-width="1"/>
+            <text x="805" y="274" text-anchor="middle" fill="#90c090" font-size="9" font-family="sans-serif">Take to Buffer Area</text>
+            <line x1="742" y1="274" x2="759" y2="274" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="805" y1="300" x2="805" y2="337" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <!-- Buffer & Quality lane -->
+            <rect x="560" y="348" width="80" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="600" y="371" text-anchor="middle" fill="#b0b0d0" font-size="9" font-family="sans-serif">Scan Labels</text>
+            <rect x="654" y="348" width="80" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="694" y="371" text-anchor="middle" fill="#b0b0d0" font-size="9" font-family="sans-serif">Check Destination</text>
+            <polygon points="752,371 770,353 788,371 770,389" fill="#2a2000" stroke="#c9a84c" stroke-width="1.5"/>
+            <line x1="764" y1="364" x2="776" y2="376" stroke="#c9a84c" stroke-width="1"/>
+            <line x1="776" y1="364" x2="764" y2="376" stroke="#c9a84c" stroke-width="1"/>
+            <text x="770" y="398" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif">Problem?</text>
+            <rect x="750" y="413" width="80" height="28" rx="4" fill="#2a1a1a" stroke="#7a4a4a" stroke-width="1"/>
+            <text x="790" y="427" text-anchor="middle" fill="#d08080" font-size="9" font-family="sans-serif">Fix Issues</text>
+            <rect x="808" y="348" width="72" height="46" rx="4" fill="#1e2e1e" stroke="#4a7a4a" stroke-width="1"/>
+            <text x="844" y="371" text-anchor="middle" fill="#90c090" font-size="9" font-family="sans-serif">Approve for Loading</text>
+            <!-- Buffer arrows -->
+            <line x1="759" y1="184" x2="759" y2="338" stroke="#555" stroke-width="1"/>
+            <line x1="759" y1="338" x2="600" y2="338" stroke="#555" stroke-width="1"/>
+            <line x1="600" y1="338" x2="600" y2="347" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="640" y1="371" x2="653" y2="371" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="734" y1="371" x2="751" y2="371" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="788" y1="371" x2="807" y2="371" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <text x="797" y="367" fill="#666" font-size="8" font-family="sans-serif">NO</text>
+            <line x1="770" y1="389" x2="770" y2="412" stroke="#c9a84c" stroke-width="1" marker-end="url(#da)"/>
+            <text x="775" y="404" fill="#c9a84c" font-size="8" font-family="sans-serif">YES</text>
+            <path d="M750 427 Q530 427 530 371 L559 371" fill="none" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <!-- Outbound lane -->
+            <rect x="630" y="458" width="80" height="46" rx="4" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="670" y="481" text-anchor="middle" fill="#b0b0d0" font-size="9" font-family="sans-serif">Check CPT</text>
+            <polygon points="730,481 748,463 766,481 748,499" fill="#2a2000" stroke="#c9a84c" stroke-width="1.5"/>
+            <line x1="742" y1="474" x2="754" y2="486" stroke="#c9a84c" stroke-width="1"/>
+            <line x1="754" y1="474" x2="742" y2="486" stroke="#c9a84c" stroke-width="1"/>
+            <text x="748" y="508" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="sans-serif">Urgent?</text>
+            <rect x="718" y="524" width="80" height="28" rx="4" fill="#2a1a1a" stroke="#7a4a4a" stroke-width="1"/>
+            <text x="758" y="538" text-anchor="middle" fill="#d08080" font-size="9" font-family="sans-serif">Keep in Buffer</text>
+            <rect x="776" y="458" width="80" height="46" rx="4" fill="#1e2e1e" stroke="#4a7a4a" stroke-width="1"/>
+            <text x="816" y="481" text-anchor="middle" fill="#90c090" font-size="9" font-family="sans-serif">Start Loading</text>
+            <circle cx="873" cy="481" r="13" fill="#1e1e1e" stroke="#e0e0e0" stroke-width="3"/>
+            <circle cx="873" cy="481" r="9" fill="#e0e0e0"/>
+            <text x="873" y="502" text-anchor="middle" fill="#888" font-size="8" font-family="sans-serif">Trucks Leave</text>
+            <!-- Outbound arrows -->
+            <line x1="844" y1="394" x2="844" y2="430" stroke="#555" stroke-width="1"/>
+            <line x1="844" y1="430" x2="670" y2="430" stroke="#555" stroke-width="1"/>
+            <line x1="670" y1="430" x2="670" y2="457" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="710" y1="481" x2="729" y2="481" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <line x1="766" y1="481" x2="775" y2="481" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <text x="770" y="477" fill="#666" font-size="8" font-family="sans-serif">YES</text>
+            <line x1="748" y1="499" x2="748" y2="523" stroke="#c9a84c" stroke-width="1" marker-end="url(#da)"/>
+            <text x="753" y="515" fill="#c9a84c" font-size="8" font-family="sans-serif">NO</text>
+            <line x1="856" y1="481" x2="860" y2="481" stroke="#555" stroke-width="1" marker-end="url(#da)"/>
+            <!-- Legend -->
+            <rect x="112" y="460" width="450" height="64" rx="4" fill="#1c1c1c" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="124" y="477" fill="#666" font-size="9" font-weight="500" font-family="sans-serif" letter-spacing="1">LEGEND</text>
+            <circle cx="130" cy="496" r="7" fill="#1e3a1e" stroke="#2ecc71" stroke-width="1.5"/>
+            <text x="143" y="500" fill="#888" font-size="9" font-family="sans-serif" dominant-baseline="central">Start event</text>
+            <circle cx="200" cy="496" r="7" fill="#1e1e1e" stroke="#e0e0e0" stroke-width="2.5"/>
+            <circle cx="200" cy="496" r="4" fill="#e0e0e0"/>
+            <text x="213" y="500" fill="#888" font-size="9" font-family="sans-serif" dominant-baseline="central">End event</text>
+            <rect x="270" y="489" width="30" height="14" rx="2" fill="#1e1e2e" stroke="#4a4a7a" stroke-width="1"/>
+            <text x="306" y="500" fill="#888" font-size="9" font-family="sans-serif" dominant-baseline="central">Task</text>
+            <polygon points="338,496 348,486 358,496 348,506" fill="#2a2000" stroke="#c9a84c" stroke-width="1.5"/>
+            <text x="364" y="500" fill="#888" font-size="9" font-family="sans-serif" dominant-baseline="central">XOR Gateway</text>
+            <rect x="430" y="489" width="30" height="14" rx="2" fill="#1a1a2e" stroke="#6a6aaa" stroke-width="1.5"/>
+            <text x="466" y="500" fill="#888" font-size="9" font-family="sans-serif" dominant-baseline="central">Sub-process</text>
+          </svg>
+        </div>
+        <div class="diagram-caption">
+          <span>Fig. 1 — Amazon DTM9 SORT CENTRE Inbound Process · BPMN 2.0 · SAP Signavio · Rev. 11 · Jun 2023</span>
+          <a href="2nd_Diagram__Complex_.pdf" target="_blank">View PDF ↗</a>
+        </div>
+      </div>
+
+      <div class="diagram-frame" style="margin-top:1.5rem;">
+        <div style="background:#141414; overflow-x:auto;">
+          <svg width="100%" viewBox="0 0 680 130" role="img" style="display:block; min-width:560px;">
+            <title>Problem Solving Sub-process BPMN Diagram</title>
+            <desc>Linear BPMN flow showing the five-step Problem Solving sub-process.</desc>
+            <defs><marker id="da2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+            <rect x="10" y="10" width="660" height="110" rx="4" fill="#161620" stroke="#3a3a5a" stroke-width="1"/>
+            <rect x="10" y="10" width="28" height="110" rx="4" fill="#1a1a2e" stroke="#3a3a5a" stroke-width="1"/>
+            <text x="24" y="65" text-anchor="middle" dominant-baseline="central" fill="#6a6aaa" font-size="9" font-weight="500" font-family="sans-serif" letter-spacing="1.5" transform="rotate(-90,24,65)">Problem Solving Team</text>
+            <circle cx="62" cy="65" r="12" fill="#1a201a" stroke="#2ecc71" stroke-width="1.5"/>
+            <text x="62" y="88" text-anchor="middle" fill="#666" font-size="8" font-family="sans-serif">Receives data</text>
+            <rect x="86" y="46" width="90" height="38" rx="4" fill="#1a1a2e" stroke="#5a5a9a" stroke-width="1"/>
+            <text x="131" y="62" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">Collect damaged/</text>
+            <text x="131" y="74" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">wrong label prods</text>
+            <rect x="192" y="46" width="88" height="38" rx="4" fill="#1a1a2e" stroke="#5a5a9a" stroke-width="1"/>
+            <text x="236" y="62" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">Identify</text>
+            <text x="236" y="74" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">product issue</text>
+            <rect x="296" y="46" width="88" height="38" rx="4" fill="#1a1a2e" stroke="#5a5a9a" stroke-width="1"/>
+            <text x="340" y="62" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">Fix</text>
+            <text x="340" y="74" text-anchor="middle" fill="#9090c0" font-size="9" font-family="sans-serif">product issue</text>
+            <rect x="400" y="46" width="88" height="38" rx="4" fill="#1e2e1e" stroke="#4a7a4a" stroke-width="1"/>
+            <text x="444" y="62" text-anchor="middle" fill="#80b080" font-size="9" font-family="sans-serif">Take products</text>
+            <text x="444" y="74" text-anchor="middle" fill="#80b080" font-size="9" font-family="sans-serif">to Buffer Area</text>
+            <circle cx="530" cy="65" r="12" fill="#1e1e1e" stroke="#e0e0e0" stroke-width="2.5"/>
+            <circle cx="530" cy="65" r="8" fill="#e0e0e0"/>
+            <text x="530" y="88" text-anchor="middle" fill="#666" font-size="8" font-family="sans-serif">Products reach Buffer</text>
+            <line x1="74" y1="65" x2="85" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da2)"/>
+            <line x1="176" y1="65" x2="191" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da2)"/>
+            <line x1="280" y1="65" x2="295" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da2)"/>
+            <line x1="384" y1="65" x2="399" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da2)"/>
+            <line x1="488" y1="65" x2="517" y2="65" stroke="#555" stroke-width="1" marker-end="url(#da2)"/>
+          </svg>
+        </div>
+        <div class="diagram-caption">
+          <span>Fig. 2 — Problem Solving Sub-process · BPMN 2.0 · SAP Signavio · Rev. 5 · Jun 2023</span>
+          <a href="2nd_Diagram__Complex_.pdf" target="_blank">View PDF ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BPMN ELEMENTS -->
+    <section class="cs-section reveal" id="elements">
+      <div class="section-eyebrow">05 — BPMN Elements</div>
+      <h2>Key BPMN Elements Used</h2>
+      <p>The model applies the full range of core BPMN 2.0 constructs, demonstrating proficiency with the notation standard used in enterprise process management:</p>
+
+      <table class="elements-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Type</th>
+            <th>Lane</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Trucks Arrive from Fulfilment Centres</td>
+            <td><span class="elem-type event">Start Event</span></td>
+            <td>Inbound Team</td>
+            <td>Triggers the entire sortation process</td>
+          </tr>
+          <tr>
+            <td>Unload Trucks / Sort by Weight</td>
+            <td><span class="elem-type task">Task</span></td>
+            <td>Inbound Team</td>
+            <td>Sequential physical tasks at inbound dock</td>
+          </tr>
+          <tr>
+            <td>Weight? / Problem? / Urgent?</td>
+            <td><span class="elem-type gateway">XOR Gateway</span></td>
+            <td>Multiple</td>
+            <td>Exclusive decision points branching the flow</td>
+          </tr>
+          <tr>
+            <td>Problem Solving Sub-process</td>
+            <td><span class="elem-type subprocess">Collapsed Sub-process</span></td>
+            <td>Problem Solving</td>
+            <td>Reusable exception-handling process (Rev. 5)</td>
+          </tr>
+          <tr>
+            <td>Parallel Gateway</td>
+            <td><span class="elem-type gateway">AND Gateway</span></td>
+            <td>Outbound Team</td>
+            <td>Manages parallel urgency-based loading decisions</td>
+          </tr>
+          <tr>
+            <td>Trucks leave for Delivery Centres</td>
+            <td><span class="elem-type event">End Event</span></td>
+            <td>Outbound Team</td>
+            <td>Marks successful completion of the sortation cycle</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SUB-PROCESS -->
+    <section class="cs-section reveal" id="subprocess">
+      <div class="section-eyebrow">06 — Sub-process</div>
+      <h2>Problem Solving Sub-process</h2>
+      <p>A key design decision was modeling the problem-solving workflow as a separate, reusable <strong>collapsed sub-process</strong> — a best practice in BPMN that keeps the main diagram readable while preserving full detail.</p>
+      <p>The sub-process is called from both the Inbound and Sortation lanes whenever a problem gateway returns YES. It follows a structured five-step flow:</p>
+      <div class="highlight-box">
+        <p>
+          <strong>Receives data from problem carts</strong> → Collects damaged / wrong-label products → Identifies the issue → Fixes the issue → Takes products back to Buffer Area → <strong>End: Products reach Buffer Area</strong>
+        </p>
+      </div>
+      <p>This design reflects real-world practice: problem-solving teams at Amazon's sortation centres operate as a <strong>decoupled support function</strong>, receiving escalations from any lane and returning resolved items to the main flow without interrupting it.</p>
+    </section>
+
+    <!-- LEARNINGS -->
+    <section class="cs-section reveal" id="learnings">
+      <div class="section-eyebrow">07 — Reflection</div>
+      <h2>Key Learnings</h2>
+      <p>This project bridged theoretical BPM knowledge with real operational context, producing insights directly applicable to Controlling and process improvement roles:</p>
+      <div class="learnings-grid">
+        <div class="learning-card">
+          <h4>BPMN 2.0 Proficiency</h4>
+          <p>Hands-on mastery of events, gateways, tasks, pools, lanes, and sub-processes — the universal language of enterprise process documentation.</p>
+        </div>
+        <div class="learning-card">
+          <h4>SAP Signavio Tooling</h4>
+          <p>Practical experience with the same collaborative process modeling tool used by SAP customers globally for S/4HANA implementation and process governance.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Exception Handling Design</h4>
+          <p>Learned to model complex exception flows (Problem Solving sub-process) cleanly without bloating the main process — a key skill in enterprise BPM.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Process → Automation Thinking</h4>
+          <p>Understood how a BPMN model becomes the blueprint for BPA/RPA implementation — translating documented processes into automation candidates.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Cross-functional Coordination</h4>
+          <p>Modeling five interdependent teams revealed how handoffs between organisational units create both efficiency opportunities and risk points.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Real-world Grounding</h4>
+          <p>Applying the model to a facility I worked in directly validated the theoretical framework against operational reality — strengthening both model accuracy and personal insight.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- CASE NAV -->
+<div class="case-nav">
+  <a href="index.html#projects" class="case-nav-item">
+    <div class="nav-dir">← Back</div>
+    <div class="nav-title">All Projects</div>
+  </a>
+  <a href="project-erpsim.html" class="case-nav-item" style="text-align:right;">
+    <div class="nav-dir">Next Project →</div>
+    <div class="nav-title">ERPsim Game – SAP S/4HANA</div>
+  </a>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
