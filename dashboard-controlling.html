@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cost Centre Controlling Dashboard – Koushik Barua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c0f;
+  --surface:#111418;
+  --surface2:#181c22;
+  --border:#1f242c;
+  --border2:#2a3040;
+  --text:#e8eaf0;
+  --muted:#5a6070;
+  --muted2:#8090a8;
+  --gold:#c9a84c;
+  --gold2:#e8d49a;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --blue:#4a9eff;
+  --accent:#c9a84c;
+  --font-head:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;min-height:100vh;overflow-x:hidden}
+
+/* ── SCANLINE TEXTURE ── */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9998}
+
+/* ── TOP NAV ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:52px;
+  background:rgba(10,12,15,0.95);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+}
+.topbar-left{display:flex;align-items:center;gap:1.5rem}
+.topbar-brand{font-family:var(--font-head);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;color:var(--gold)}
+.topbar-sep{width:1px;height:20px;background:var(--border2)}
+.topbar-title{font-size:0.78rem;color:var(--muted2);letter-spacing:0.04em}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.topbar-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border:1px solid var(--border2);color:var(--muted2)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.back-link{font-size:0.72rem;color:var(--muted);text-decoration:none;letter-spacing:0.08em;transition:color 0.2s}
+.back-link:hover{color:var(--gold)}
+
+/* ── LAYOUT ── */
+.shell{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 52px)}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  border-right:1px solid var(--border);
+  padding:1.5rem 0;
+  position:sticky;top:52px;height:calc(100vh - 52px);
+  overflow-y:auto;
+}
+.sidebar-section-label{
+  font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;
+  color:var(--muted);padding:0 1.25rem;margin-bottom:0.5rem;text-transform:uppercase;
+}
+.nav-item{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.55rem 1.25rem;
+  font-size:0.8rem;color:var(--muted2);
+  cursor:pointer;transition:all 0.15s;
+  border-left:2px solid transparent;
+  user-select:none;
+}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,0.06)}
+.nav-icon{font-size:0.85rem;width:16px;text-align:center}
+.sidebar-divider{height:1px;background:var(--border);margin:1rem 1.25rem}
+.sidebar-kpi{padding:0.75rem 1.25rem}
+.sidebar-kpi-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.25rem}
+.sidebar-kpi-value{font-family:var(--font-mono);font-size:1rem;font-weight:500;color:var(--text)}
+.sidebar-kpi-sub{font-size:0.68rem;margin-top:0.15rem}
+.neg{color:var(--red)}.pos{color:var(--green)}
+
+/* ── MAIN ── */
+.main{padding:2rem;overflow-y:auto}
+
+/* ── HEADER ROW ── */
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.dash-title-block{}
+.dash-eyebrow{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:0.35rem}
+.dash-title{font-family:var(--font-head);font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+.dash-sub{font-size:0.8rem;color:var(--muted2);margin-top:0.35rem}
+.controls{display:flex;gap:0.5rem;flex-wrap:wrap}
+.ctrl-btn{
+  font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.08em;
+  padding:0.4rem 0.85rem;border:1px solid var(--border2);
+  background:transparent;color:var(--muted2);cursor:pointer;
+  transition:all 0.15s;
+}
+.ctrl-btn:hover{border-color:var(--gold);color:var(--gold)}
+.ctrl-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08)}
+
+/* ── KPI CARDS ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:1.25rem 1.5rem;position:relative;overflow:hidden;
+  transition:border-color 0.2s;
+}
+.kpi-card:hover{border-color:var(--border2)}
+.kpi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:0;transition:opacity 0.2s;
+}
+.kpi-card:hover::before{opacity:1}
+.kpi-label{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--muted);margin-bottom:0.6rem;text-transform:uppercase}
+.kpi-value{font-family:var(--font-mono);font-size:1.5rem;font-weight:500;color:var(--text);line-height:1}
+.kpi-unit{font-size:0.7rem;color:var(--muted);margin-left:0.25rem}
+.kpi-delta{font-size:0.72rem;margin-top:0.5rem;display:flex;align-items:center;gap:0.3rem}
+.kpi-bar{height:2px;background:var(--border);margin-top:0.75rem;border-radius:1px}
+.kpi-bar-fill{height:100%;border-radius:1px;transition:width 1s ease}
+
+/* ── GRID ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.dash-grid-3{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.card{background:var(--surface);border:1px solid var(--border);padding:1.5rem}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.card-title{font-family:var(--font-head);font-size:0.9rem;font-weight:700;letter-spacing:0.02em}
+.card-badge{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.1em;padding:0.2rem 0.5rem;border:1px solid var(--border2);color:var(--muted)}
+.card-sub{font-size:0.72rem;color:var(--muted);margin-top:0.2rem}
+
+/* ── CHART CANVAS ── */
+canvas{display:block;width:100%!important}
+
+/* ── VARIANCE TABLE ── */
+.var-table{width:100%;border-collapse:collapse}
+.var-table th{
+  font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.12em;
+  color:var(--muted);padding:0 0.5rem 0.6rem;text-align:right;
+  border-bottom:1px solid var(--border);text-transform:uppercase;
+}
+.var-table th:first-child{text-align:left}
+.var-table td{
+  padding:0.6rem 0.5rem;font-family:var(--font-mono);font-size:0.78rem;
+  border-bottom:1px solid var(--border);vertical-align:middle;
+  color:var(--text);text-align:right;
+}
+.var-table td:first-child{text-align:left;color:var(--muted2);font-family:var(--font-body)}
+.var-table tr:last-child td{border-bottom:none}
+.var-table tr:hover td{background:rgba(255,255,255,0.02)}
+.var-pill{
+  display:inline-block;font-size:0.65rem;padding:0.15rem 0.45rem;
+  font-family:var(--font-mono);letter-spacing:0.05em;
+}
+.var-neg{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3)}
+.var-pos{background:rgba(46,204,113,0.15);color:var(--green);border:1px solid rgba(46,204,113,0.3)}
+.var-neu{background:rgba(90,96,112,0.15);color:var(--muted2);border:1px solid var(--border2)}
+
+/* ── PROGRESS BARS ── */
+.dept-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem}
+.dept-row:last-child{margin-bottom:0}
+.dept-name{font-size:0.78rem;color:var(--muted2);min-width:110px}
+.dept-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;position:relative}
+.dept-bar-fill{height:100%;border-radius:3px;position:absolute;top:0;left:0;transition:width 1.2s ease}
+.dept-bar-budget{height:100%;border-radius:3px;position:absolute;top:0;left:0;background:var(--border2)}
+.dept-pct{font-family:var(--font-mono);font-size:0.7rem;min-width:40px;text-align:right}
+
+/* ── WATERFALL ── */
+.waterfall-wrap{position:relative}
+
+/* ── TOOLTIP ── */
+.tooltip{
+  position:fixed;z-index:1000;
+  background:var(--surface2);border:1px solid var(--border2);
+  padding:0.6rem 0.9rem;font-size:0.75rem;
+  pointer-events:none;opacity:0;transition:opacity 0.15s;
+  font-family:var(--font-mono);color:var(--text);
+}
+.tooltip.show{opacity:1}
+.tt-label{color:var(--muted);font-size:0.65rem;margin-bottom:0.2rem}
+
+/* ── FOOTER ── */
+.dash-footer{
+  border-top:1px solid var(--border);padding:1.25rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--font-mono);font-size:0.62rem;color:var(--muted);
+}
+.footer-note{display:flex;align-items:center;gap:0.5rem}
+
+/* ── SELECTOR TABS ── */
+.tab-row{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.tab{
+  font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.08em;
+  padding:0.5rem 1rem;cursor:pointer;color:var(--muted);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all 0.15s;
+}
+.tab:hover{color:var(--muted2)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── ANNOTATIONS ── */
+.annotation{
+  display:flex;gap:0.6rem;padding:0.75rem;
+  background:rgba(201,168,76,0.06);border-left:2px solid var(--gold);
+  margin-top:1rem;
+}
+.annotation-icon{color:var(--gold);font-size:0.85rem}
+.annotation-text{font-size:0.75rem;color:var(--muted2);line-height:1.55}
+.annotation-text strong{color:var(--text)}
+
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .dash-grid,.dash-grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip"><div class="tt-label" id="tt-label"></div><div id="tt-val"></div></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-brand">KB</span>
+    <div class="topbar-sep"></div>
+    <span class="topbar-title">Cost Centre Controlling · VW Group Analysis</span>
+  </div>
+  <div class="topbar-right">
+    <div class="live-dot"></div>
+    <span class="topbar-badge">FY 2023</span>
+    <a href="index.html" class="back-link">← Portfolio</a>
+  </div>
+</header>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div style="padding:0 1.25rem 1rem">
+    <div style="font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--muted);margin-bottom:0.75rem">NAVIGATION</div>
+  </div>
+  <div class="nav-item active" onclick="scrollTo('overview')"><span class="nav-icon">◈</span> Overview</div>
+  <div class="nav-item" onclick="scrollTo('variance')"><span class="nav-icon">△</span> Variance Analysis</div>
+  <div class="nav-item" onclick="scrollTo('cost-structure')"><span class="nav-icon">◫</span> Cost Structure</div>
+  <div class="nav-item" onclick="scrollTo('departments')"><span class="nav-icon">≡</span> Cost Centres</div>
+  <div class="nav-item" onclick="scrollTo('trend')"><span class="nav-icon">∿</span> Trend Analysis</div>
+
+  <div class="sidebar-divider"></div>
+  <div style="padding:0 1.25rem;margin-bottom:0.5rem"><span style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;color:var(--muted)">KEY METRICS</span></div>
+
+  <div class="sidebar-kpi">
+    <div class="sidebar-kpi-label">Total Costs</div>
+    <div class="sidebar-kpi-value">€ 256.4B</div>
+    <div class="sidebar-kpi-sub neg">▲ +4.2% vs Budget</div>
+  </div>
+  <div class="sidebar-kpi">
+    <div class="sidebar-kpi-label">Budget Deviation</div>
+    <div class="sidebar-kpi-value">− 10.3B</div>
+    <div class="sidebar-kpi-sub neg">Over budget</div>
+  </div>
+  <div class="sidebar-kpi">
+    <div class="sidebar-kpi-label">EBIT Margin</div>
+    <div class="sidebar-kpi-value">7.8 %</div>
+    <div class="sidebar-kpi-sub pos">▲ +0.4pp vs PY</div>
+  </div>
+  <div class="sidebar-kpi">
+    <div class="sidebar-kpi-label">Headcount</div>
+    <div class="sidebar-kpi-value">684 K</div>
+    <div class="sidebar-kpi-sub neg">▼ − 3.2K vs PY</div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+  <div style="padding:0 1.25rem">
+    <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.5rem">DATA SOURCE</div>
+    <div style="font-size:0.72rem;color:var(--muted2);line-height:1.5">Volkswagen AG<br/>Annual Report 2023<br/>Adapted for analysis</div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- HEADER -->
+  <div class="dash-header">
+    <div class="dash-title-block">
+      <div class="dash-eyebrow">COST CENTRE CONTROLLING DASHBOARD</div>
+      <div class="dash-title">Volkswagen Group<br/>FY 2023 Analysis</div>
+      <div class="dash-sub">Budget vs Actual · Variance Analysis · Cost Centre Breakdown</div>
+    </div>
+    <div class="controls">
+      <button class="ctrl-btn active" onclick="setYear(this,'2023')">FY 2023</button>
+      <button class="ctrl-btn" onclick="setYear(this,'2022')">FY 2022</button>
+      <button class="ctrl-btn" onclick="setYear(this,'2021')">FY 2021</button>
+      <button class="ctrl-btn" onclick="toggleCurrency(this)">€ EUR</button>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-row" id="overview">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value">322.3<span class="kpi-unit">€B</span></div>
+      <div class="kpi-delta pos">▲ +15.6% vs PY</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:88%;background:var(--green)"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Cost Basis</div>
+      <div class="kpi-value">256.4<span class="kpi-unit">€B</span></div>
+      <div class="kpi-delta neg">▲ +4.2% vs Budget</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:79%;background:var(--red)"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">EBIT</div>
+      <div class="kpi-value">22.6<span class="kpi-unit">€B</span></div>
+      <div class="kpi-delta pos">▲ EBIT Margin 7.8%</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:62%;background:var(--gold)"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cost/Revenue Ratio</div>
+      <div class="kpi-value">79.6<span class="kpi-unit">%</span></div>
+      <div class="kpi-delta neg">▲ +0.8pp vs Budget</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:79.6%;background:var(--blue)"></div></div>
+    </div>
+  </div>
+
+  <!-- CHART ROW 1: Budget vs Actual + Cost Mix -->
+  <div class="dash-grid" id="variance">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Budget vs Actual — Monthly 2023</div>
+          <div class="card-sub">Total cost base in € billions per quarter</div>
+        </div>
+        <span class="card-badge">BAR</span>
+      </div>
+      <canvas id="budgetChart" height="220"></canvas>
+      <div class="annotation">
+        <span class="annotation-icon">▲</span>
+        <span class="annotation-text"><strong>Q3 overrun (+€3.4B):</strong> driven by increased raw material costs and supply chain disruptions in the semiconductor segment. R&D ramp-up for EV platform contributed €1.1B additional spend.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Cost Structure Mix</div>
+          <div class="card-sub">By category, FY 2023</div>
+        </div>
+        <span class="card-badge">DOUGHNUT</span>
+      </div>
+      <canvas id="costMixChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- VARIANCE TABLE -->
+  <div class="card" style="margin-bottom:1.5rem" id="cost-structure">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Cost Centre Variance Analysis</div>
+        <div class="card-sub">Budget vs Actual vs Prior Year — FY 2023 (€ millions)</div>
+      </div>
+      <div class="tab-row" style="margin:0;border:none">
+        <div class="tab active" onclick="filterTable(this,'all')">All</div>
+        <div class="tab" onclick="filterTable(this,'over')">Over Budget</div>
+        <div class="tab" onclick="filterTable(this,'under')">Under Budget</div>
+      </div>
+    </div>
+
+    <table class="var-table" id="varTable">
+      <thead>
+        <tr>
+          <th style="text-align:left">Cost Centre</th>
+          <th>Budget €M</th>
+          <th>Actual €M</th>
+          <th>Variance €M</th>
+          <th>Var %</th>
+          <th>vs PY</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="varBody"></tbody>
+    </table>
+  </div>
+
+  <!-- DEPT BARS + WATERFALL -->
+  <div class="dash-grid-3" id="departments">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Cost Centre Budget Utilisation</div>
+          <div class="card-sub">Actual spend as % of approved budget</div>
+        </div>
+        <span class="card-badge">BAR</span>
+      </div>
+      <div id="deptBars"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Top Overruns</div>
+          <div class="card-sub">Absolute variance €M</div>
+        </div>
+        <span class="card-badge">RANK</span>
+      </div>
+      <canvas id="overrunChart" height="280"></canvas>
+    </div>
+  </div>
+
+  <!-- TREND -->
+  <div class="card" id="trend">
+    <div class="card-header">
+      <div>
+        <div class="card-title">3-Year Cost Trend — Budget vs Actual</div>
+        <div class="card-sub">Annual total costs in € billions, 2021–2023</div>
+      </div>
+      <span class="card-badge">LINE</span>
+    </div>
+    <canvas id="trendChart" height="160"></canvas>
+    <div class="annotation">
+      <span class="annotation-icon">◈</span>
+      <span class="annotation-text"><strong>Insight:</strong> Cost base grew 18.4% over 3 years driven by EV transition investments, while revenue grew 22.1% — indicating improving operational leverage. R&D costs alone increased from €15.1B (2021) to €17.2B (2023), reflecting the MEB/PPE platform rollout strategy.</span>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer class="dash-footer">
+  <div class="footer-note">
+    <span>⬡</span>
+    <span>Data adapted from Volkswagen AG Annual Report 2023 · Built by Koushik Barua · Portfolio project demonstrating SAP FI/CO controlling concepts</span>
+  </div>
+  <div>
+    <a href="index.html" style="color:var(--gold);text-decoration:none;font-family:var(--font-mono);font-size:0.62rem">BACK TO PORTFOLIO →</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── DATA ──────────────────────────────────────────
+const YEARS = {
+  '2023': {
+    budgetVsActual: {
+      labels:['Q1','Q2','Q3','Q4'],
+      budget:[58.2,61.4,63.8,62.7],
+      actual:[59.1,62.8,67.2,67.3]
+    },
+    costMix:{
+      labels:['Cost of Sales','R&D','Selling & Dist.','Admin','Other'],
+      values:[189.4,17.2,24.8,12.6,12.4]
+    },
+    trend:{
+      labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      budget:[18.5,18.8,20.9,19.2,20.4,21.8,20.1,21.3,22.4,20.8,21.9,20.0],
+      actual:[19.1,19.3,20.7,19.8,21.2,21.8,21.4,22.6,23.2,22.1,22.4,22.8]
+    },
+    costCentres:[
+      {name:'Manufacturing',budget:98500,actual:103200,py:89400},
+      {name:'R&D / Engineering',budget:16800,actual:17200,py:15100},
+      {name:'Procurement',budget:72400,actual:74100,py:68200},
+      {name:'Sales & Marketing',budget:23100,actual:24800,py:21900},
+      {name:'IT & Digitalization',budget:4200,actual:4100,py:3900},
+      {name:'HR & Administration',budget:7800,actual:7600,py:7400},
+      {name:'Logistics',budget:18400,actual:19800,py:17200},
+      {name:'Finance & Controlling',budget:2100,actual:2050,py:1980},
+      {name:'After-Sales Service',budget:11200,actual:11900,py:10800},
+      {name:'EV / Battery',budget:7500,actual:8400,py:5200},
+    ]
+  },
+  '2022': {
+    budgetVsActual:{
+      labels:['Q1','Q2','Q3','Q4'],
+      budget:[52.1,55.4,56.8,57.2],
+      actual:[52.8,55.1,57.9,61.2]
+    },
+    costMix:{
+      labels:['Cost of Sales','R&D','Selling & Dist.','Admin','Other'],
+      values:[172.1,16.2,21.4,11.2,11.1]
+    },
+    trend:{
+      labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      budget:[16.8,17.2,18.1,17.4,18.6,19.2,18.4,19.1,20.1,18.8,19.6,17.9],
+      actual:[17.2,17.4,18.2,17.3,18.9,18.8,19.4,20.2,19.7,20.1,21.2,20.6]
+    },
+    costCentres:[
+      {name:'Manufacturing',budget:92000,actual:89400,py:84100},
+      {name:'R&D / Engineering',budget:15800,actual:15100,py:14400},
+      {name:'Procurement',budget:69000,actual:68200,py:63800},
+      {name:'Sales & Marketing',budget:22000,actual:21900,py:20400},
+      {name:'IT & Digitalization',budget:3900,actual:3900,py:3500},
+      {name:'HR & Administration',budget:7500,actual:7400,py:7100},
+      {name:'Logistics',budget:17200,actual:17200,py:15900},
+      {name:'Finance & Controlling',budget:2000,actual:1980,py:1900},
+      {name:'After-Sales Service',budget:10600,actual:10800,py:10100},
+      {name:'EV / Battery',budget:4800,actual:5200,py:2800},
+    ]
+  },
+  '2021': {
+    budgetVsActual:{
+      labels:['Q1','Q2','Q3','Q4'],
+      budget:[46.2,50.1,52.4,54.1],
+      actual:[46.8,51.2,52.1,56.4]
+    },
+    costMix:{
+      labels:['Cost of Sales','R&D','Selling & Dist.','Admin','Other'],
+      values:[155.3,15.1,18.8,10.1,8.8]
+    },
+    trend:{
+      labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      budget:[14.2,14.8,17.2,15.8,16.8,17.6,16.4,17.8,18.2,17.1,18.4,17.4],
+      actual:[14.8,14.9,17.0,16.2,17.1,17.2,17.4,18.1,17.8,18.8,19.4,18.8]
+    },
+    costCentres:[
+      {name:'Manufacturing',budget:82000,actual:84100,py:80100},
+      {name:'R&D / Engineering',budget:14200,actual:14400,py:13900},
+      {name:'Procurement',budget:61000,actual:63800,py:60200},
+      {name:'Sales & Marketing',budget:19800,actual:20400,py:19200},
+      {name:'IT & Digitalization',budget:3400,actual:3500,py:3200},
+      {name:'HR & Administration',budget:7100,actual:7100,py:6900},
+      {name:'Logistics',budget:15800,actual:15900,py:14800},
+      {name:'Finance & Controlling',budget:1900,actual:1900,py:1820},
+      {name:'After-Sales Service',budget:10000,actual:10100,py:9600},
+      {name:'EV / Battery',budget:2200,actual:2800,py:1400},
+    ]
+  }
+};
+
+let currentYear = '2023';
+let charts = {};
+
+// ── CHART DEFAULTS ─────────────────────────────────
+Chart.defaults.color = '#5a6070';
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size = 11;
+const gridColor = 'rgba(31,36,44,0.8)';
+const tickColor = '#3a4050';
+
+function chartDefaults(extra={}){
+  return {
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{enabled:false}},
+    ...extra
+  };
+}
+
+// ── BUILD BUDGET VS ACTUAL CHART ──────────────────
+function buildBudgetChart(d){
+  const ctx = document.getElementById('budgetChart');
+  if(charts.budget) charts.budget.destroy();
+  charts.budget = new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:d.labels,
+      datasets:[
+        {label:'Budget',data:d.budget,backgroundColor:'rgba(42,48,64,0.9)',borderColor:'#2a3040',borderWidth:1,borderRadius:2},
+        {label:'Actual',data:d.actual,backgroundColor:(ctx)=>{
+          const v=ctx.raw, b=d.budget[ctx.dataIndex];
+          return v>b?'rgba(231,76,60,0.7)':'rgba(46,204,113,0.7)';
+        },borderColor:(ctx)=>{
+          const v=ctx.raw, b=d.budget[ctx.dataIndex];
+          return v>b?'rgba(231,76,60,1)':'rgba(46,204,113,1)';
+        },borderWidth:1,borderRadius:2},
+      ]
+    },
+    options:{
+      ...chartDefaults(),
+      scales:{
+        x:{grid:{color:gridColor},ticks:{color:tickColor}},
+        y:{grid:{color:gridColor},ticks:{color:tickColor,callback:v=>'€'+v+'B'}}
+      },
+      onHover:(e,els)=>handleHover(e,els,'budgetChart',d),
+    }
+  });
+  ctx.addEventListener('mousemove',e=>showTooltipBar(e,charts.budget,d));
+  ctx.addEventListener('mouseleave',()=>hideTooltip());
+}
+
+// ── COST MIX DOUGHNUT ─────────────────────────────
+function buildCostMixChart(d){
+  const ctx = document.getElementById('costMixChart');
+  if(charts.mix) charts.mix.destroy();
+  const colors=['#c9a84c','#4a9eff','#2ecc71','#9b59b6','#e74c3c'];
+  const bcolors=['#c9a84c88','#4a9eff88','#2ecc7188','#9b59b688','#e74c3c88'];
+  charts.mix = new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:d.labels,
+      datasets:[{data:d.values,backgroundColor:bcolors,borderColor:colors,borderWidth:1.5,hoverOffset:8}]
+    },
+    options:{
+      ...chartDefaults(),
+      cutout:'68%',
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{color:'#5a6070',font:{size:10,family:"'DM Mono',monospace"},boxWidth:10,padding:12}},
+        tooltip:{enabled:false}
+      },
+    }
+  });
+  ctx.addEventListener('mousemove',e=>showTooltipDoughnut(e,charts.mix));
+  ctx.addEventListener('mouseleave',()=>hideTooltip());
+}
+
+// ── OVERRUN CHART ─────────────────────────────────
+function buildOverrunChart(d){
+  const ctx = document.getElementById('overrunChart');
+  if(charts.overrun) charts.overrun.destroy();
+  const sorted=[...d].sort((a,b)=>(b.actual-b.budget)-(a.actual-a.budget)).slice(0,6);
+  const labels=sorted.map(r=>r.name.split(' ')[0]);
+  const vals=sorted.map(r=>r.actual-r.budget);
+  charts.overrun = new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        data:vals,
+        backgroundColor:vals.map(v=>v>0?'rgba(231,76,60,0.6)':'rgba(46,204,113,0.6)'),
+        borderColor:vals.map(v=>v>0?'#e74c3c':'#2ecc71'),
+        borderWidth:1,borderRadius:3,
+        indexAxis:'y'
+      }]
+    },
+    options:{
+      ...chartDefaults(),
+      indexAxis:'y',
+      scales:{
+        x:{grid:{color:gridColor},ticks:{color:tickColor,callback:v=>(v>0?'+':'')+v}},
+        y:{grid:{color:'transparent'},ticks:{color:'#8090a8',font:{size:10}}}
+      }
+    }
+  });
+}
+
+// ── TREND CHART ───────────────────────────────────
+function buildTrendChart(d){
+  const ctx = document.getElementById('trendChart');
+  if(charts.trend) charts.trend.destroy();
+  charts.trend = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:d.labels,
+      datasets:[
+        {label:'Budget',data:d.budget,borderColor:'#2a3a50',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.3},
+        {label:'Actual',data:d.actual,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,0.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#c9a84c',fill:true,tension:0.3},
+      ]
+    },
+    options:{
+      ...chartDefaults(),
+      plugins:{
+        legend:{display:true,position:'top',labels:{color:'#5a6070',font:{size:10,family:"'DM Mono',monospace"},boxWidth:20,padding:16}},
+        tooltip:{enabled:false}
+      },
+      scales:{
+        x:{grid:{color:gridColor},ticks:{color:tickColor}},
+        y:{grid:{color:gridColor},ticks:{color:tickColor,callback:v=>'€'+v+'B'}}
+      }
+    }
+  });
+  ctx.addEventListener('mousemove',e=>showTooltipLine(e,charts.trend));
+  ctx.addEventListener('mouseleave',()=>hideTooltip());
+}
+
+// ── VARIANCE TABLE ────────────────────────────────
+function buildVarTable(data, filter='all'){
+  const tbody = document.getElementById('varBody');
+  let rows = data.costCentres;
+  if(filter==='over') rows=rows.filter(r=>r.actual>r.budget);
+  if(filter==='under') rows=rows.filter(r=>r.actual<=r.budget);
+
+  tbody.innerHTML = rows.map(r=>{
+    const varM = r.actual - r.budget;
+    const varPct = ((varM/r.budget)*100).toFixed(1);
+    const vsPY = (((r.actual-r.py)/r.py)*100).toFixed(1);
+    const isOver = varM > 0;
+    const pill = isOver
+      ? `<span class="var-pill var-neg">Over</span>`
+      : varM === 0 ? `<span class="var-pill var-neu">On Track</span>`
+      : `<span class="var-pill var-pos">Under</span>`;
+    const varClass = isOver ? 'neg' : 'pos';
+    const pyClass = parseFloat(vsPY) > 5 ? 'neg' : parseFloat(vsPY) < 0 ? 'pos' : '';
+    return `<tr>
+      <td>${r.name}</td>
+      <td>${r.budget.toLocaleString()}</td>
+      <td>${r.actual.toLocaleString()}</td>
+      <td class="${varClass}">${varM>0?'+':''}${varM.toLocaleString()}</td>
+      <td class="${varClass}">${varM>0?'+':''}${varPct}%</td>
+      <td class="${pyClass}">${parseFloat(vsPY)>0?'+':''}${vsPY}%</td>
+      <td>${pill}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── DEPT BARS ─────────────────────────────────────
+function buildDeptBars(data){
+  const el = document.getElementById('deptBars');
+  el.innerHTML = data.costCentres.map(r=>{
+    const pct = Math.min((r.actual/r.budget)*100,130);
+    const over = pct > 100;
+    const color = over ? 'var(--red)' : pct > 90 ? 'var(--gold)' : 'var(--green)';
+    return `<div class="dept-row">
+      <div class="dept-name">${r.name.split(' ').slice(0,2).join(' ')}</div>
+      <div class="dept-bar-track">
+        <div class="dept-bar-budget" style="width:100%"></div>
+        <div class="dept-bar-fill" style="width:${Math.min(pct,100)}%;background:${color}"></div>
+        ${over?`<div style="position:absolute;top:0;left:100%;height:100%;width:${Math.min(pct-100,30)}%;background:var(--red);opacity:0.4;border-radius:0 3px 3px 0"></div>`:''}
+      </div>
+      <div class="dept-pct" style="color:${color}">${pct.toFixed(0)}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ── TOOLTIP HELPERS ───────────────────────────────
+const tooltip = document.getElementById('tooltip');
+const ttLabel = document.getElementById('tt-label');
+const ttVal = document.getElementById('tt-val');
+
+function showTooltip(x, y, label, val){
+  ttLabel.textContent = label;
+  ttVal.textContent = val;
+  tooltip.style.left = (x+14)+'px';
+  tooltip.style.top = (y-30)+'px';
+  tooltip.classList.add('show');
+}
+function hideTooltip(){ tooltip.classList.remove('show'); }
+
+function showTooltipBar(e, chart, d){
+  const pts = chart.getElementsAtEventForMode(e,'nearest',{intersect:true},true);
+  if(!pts.length){hideTooltip();return;}
+  const idx=pts[0].index, ds=pts[0].datasetIndex;
+  const q=d.labels[idx];
+  const bud=d.budget[idx], act=d.actual[idx];
+  const diff=act-bud;
+  showTooltip(e.clientX, e.clientY, `${q} — ${ds===0?'Budget':'Actual'}`, `€${(ds===0?bud:act).toFixed(1)}B · Var: ${diff>0?'+':''}€${diff.toFixed(1)}B`);
+}
+function showTooltipDoughnut(e, chart){
+  const pts = chart.getElementsAtEventForMode(e,'nearest',{intersect:true},true);
+  if(!pts.length){hideTooltip();return;}
+  const idx=pts[0].index;
+  const d=chart.data;
+  const total=d.datasets[0].data.reduce((a,b)=>a+b,0);
+  const pct=((d.datasets[0].data[idx]/total)*100).toFixed(1);
+  showTooltip(e.clientX, e.clientY, d.labels[idx], `€${d.datasets[0].data[idx].toFixed(1)}B · ${pct}%`);
+}
+function showTooltipLine(e, chart){
+  const pts = chart.getElementsAtEventForMode(e,'index',{intersect:false},true);
+  if(!pts.length){hideTooltip();return;}
+  const idx=pts[0].index;
+  const bud=chart.data.datasets[0].data[idx];
+  const act=chart.data.datasets[1].data[idx];
+  const diff=act-bud;
+  showTooltip(e.clientX, e.clientY, chart.data.labels[idx], `Budget €${bud}B · Actual €${act}B · ${diff>0?'+':''}€${diff.toFixed(1)}B`);
+}
+
+// ── YEAR SWITCHER ─────────────────────────────────
+function setYear(btn, year){
+  document.querySelectorAll('.controls .ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentYear = year;
+  rebuildAll();
+}
+
+function toggleCurrency(btn){
+  // Toggle label only (visual demo)
+  btn.textContent = btn.textContent.includes('EUR') ? '$ USD' : '€ EUR';
+}
+
+function rebuildAll(){
+  const d = YEARS[currentYear];
+  buildBudgetChart(d.budgetVsActual);
+  buildCostMixChart(d.costMix);
+  buildOverrunChart(d.costCentres);
+  buildTrendChart(d.trend);
+  buildVarTable(d);
+  buildDeptBars(d);
+}
+
+// ── TABLE FILTER ──────────────────────────────────
+let currentFilter = 'all';
+function filterTable(tab, filter){
+  document.querySelectorAll('.tab-row .tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  currentFilter = filter;
+  buildVarTable(YEARS[currentYear], filter);
+}
+
+// ── SIDEBAR NAV ───────────────────────────────────
+function scrollTo(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── INIT ──────────────────────────────────────────
+window.addEventListener('load', ()=>{
+  rebuildAll();
+  // Animate KPI bar fills
+  document.querySelectorAll('.kpi-bar-fill').forEach(b=>{
+    const w = b.style.width; b.style.width='0';
+    setTimeout(()=>{ b.style.transition='width 1s ease'; b.style.width=w; }, 200);
+  });
+});
+</script>
+</body>
+</html>
